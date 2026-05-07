@@ -1064,19 +1064,33 @@ const questions = [
   { topic:'rational', text:'Which value solves this equation?', math:'n − 0.25 = 1.75', choices:['n = 1.5','n = 2','n = 0.25','n = 7'], correct:1,
     explain:'Add 0.25 to both sides: n = 1.75 + 0.25 = 2' },
 
-  // ---- REAL WORLD ----
-  { topic:'realWorld', text:'Marcus earns $8 per hour. He earned $48 this week. How many hours did he work?', math:'8h = 48', choices:['h = 6','h = 56','h = 40','h = 384'], correct:0,
-    explain:'Divide both sides by 8: h = 48 ÷ 8 = 6 hours.' },
-  { topic:'realWorld', text:'Jaylen had some stickers. He gave away 15 and had 27 left. How many did he start with?', math:'s − 15 = 27', choices:['s = 12','s = 405','s = 42','s = 27'], correct:2,
-    explain:'Add 15 to both sides: s = 27 + 15 = 42 stickers.' },
-  { topic:'realWorld', text:'A pizza is cut into equal slices. If 4 people each get 3 slices, how many total slices?', math:'s ÷ 4 = 3', choices:['s = 7','s = 12','s = 1','s = 43'], correct:1,
-    explain:'Multiply both sides by 4: s = 3 × 4 = 12 slices.' },
-  { topic:'realWorld', text:'The temperature rose 9 degrees to reach 72°F. What was the starting temp?', math:'t + 9 = 72', choices:['t = 81','t = 648','t = 63','t = 9'], correct:2,
-    explain:'Subtract 9 from both sides: t = 72 − 9 = 63°F.' },
-  { topic:'realWorld', text:'A school bus has some seats. With 6 seats per row and 35 rows... if 6 × r = 210, how many rows?', math:'6r = 210', choices:['r = 35','r = 216','r = 204','r = 1260'], correct:0,
-    explain:'Divide both sides by 6: r = 210 ÷ 6 = 35 rows.' },
-  { topic:'realWorld', text:'Mia saved the same amount each month. After 4 months she saved $60. Monthly savings?', math:'4m = 60', choices:['m = 240','m = 56','m = 15','m = 64'], correct:2,
-    explain:'Divide both sides by 4: m = 60 ÷ 4 = $15 per month.' },
+  // ---- REAL WORLD (26 problems) ----
+  { topic:'realWorld', text:'Marcus earns $8 per hour. He earned $48 this week. How many hours did he work?', math:'8h = 48', choices:['h = 6','h = 56','h = 40','h = 384'], correct:0, explain:'Divide both sides by 8: h = 48 ÷ 8 = 6 hours.' },
+  { topic:'realWorld', text:'Jaylen had some trading cards. He gave away 15 and had 27 left. How many did he start with?', math:'c − 15 = 27', choices:['c = 12','c = 405','c = 42','c = 27'], correct:2, explain:'Add 15 to both sides: c = 27 + 15 = 42 cards.' },
+  { topic:'realWorld', text:'The temperature rose 9 degrees to reach 72°F. What was the starting temperature?', math:'t + 9 = 72', choices:['t = 81','t = 648','t = 63','t = 9'], correct:2, explain:'Subtract 9 from both sides: t = 72 − 9 = 63°F.' },
+  { topic:'realWorld', text:'Mia saved the same amount each month. After 4 months she saved $60. What is her monthly savings?', math:'4m = 60', choices:['m = 240','m = 56','m = 15','m = 64'], correct:2, explain:'Divide both sides by 4: m = 60 ÷ 4 = $15 per month.' },
+  { topic:'realWorld', text:'A school store sells pencils for $2 each. Darius spent $18 on pencils. How many did he buy?', math:'2p = 18', choices:['p = 36','p = 9','p = 20','p = 16'], correct:1, explain:'Divide both sides by 2: p = 18 ÷ 2 = 9 pencils.' },
+  { topic:'realWorld', text:'Keisha had some money. After spending $23 she had $14 left. How much did she start with?', math:'m − 23 = 14', choices:['m = 9','m = 322','m = 37','m = 23'], correct:2, explain:'Add 23 to both sides: m = 14 + 23 = $37.' },
+  { topic:'realWorld', text:'A baker makes the same number of cookies per tray. With 8 trays he baked 96 cookies. How many per tray?', math:'8t = 96', choices:['t = 12','t = 104','t = 88','t = 768'], correct:0, explain:'Divide both sides by 8: t = 96 ÷ 8 = 12 cookies per tray.' },
+  { topic:'realWorld', text:'Jordan\'s older brother is 5 years older than Jordan. His brother is 17. How old is Jordan?', math:'j + 5 = 17', choices:['j = 22','j = 85','j = 12','j = 5'], correct:2, explain:'Subtract 5 from both sides: j = 17 − 5 = 12 years old.' },
+  { topic:'realWorld', text:'A library fine is $0.25 per day. The total fine is $2.00. How many days late?', math:'0.25d = 2.00', choices:['d = 0.5','d = 8','d = 50','d = 2.25'], correct:1, explain:'Divide both sides by 0.25: d = 2.00 ÷ 0.25 = 8 days.' },
+  { topic:'realWorld', text:'252 students are split equally into 9 classrooms. How many students per classroom?', math:'9c = 252', choices:['c = 261','c = 243','c = 28','c = 2268'], correct:2, explain:'Divide both sides by 9: c = 252 ÷ 9 = 28 students.' },
+  { topic:'realWorld', text:'A plant grew 4 inches last month and is now 19 inches tall. How tall was it before?', math:'p + 4 = 19', choices:['p = 23','p = 76','p = 15','p = 4'], correct:2, explain:'Subtract 4 from both sides: p = 19 − 4 = 15 inches.' },
+  { topic:'realWorld', text:'Tickets to the school play cost $5 each. The class raised $135. How many tickets sold?', math:'5t = 135', choices:['t = 675','t = 130','t = 27','t = 140'], correct:2, explain:'Divide both sides by 5: t = 135 ÷ 5 = 27 tickets.' },
+  { topic:'realWorld', text:'After donating 32 books, the classroom has 18 books left. How many did they start with?', math:'b − 32 = 18', choices:['b = 14','b = 576','b = 50','b = 32'], correct:2, explain:'Add 32 to both sides: b = 18 + 32 = 50 books.' },
+  { topic:'realWorld', text:'A car travels the same speed each hour. After 7 hours it traveled 350 miles. What is its speed?', math:'7s = 350', choices:['s = 357','s = 2450','s = 50','s = 343'], correct:2, explain:'Divide both sides by 7: s = 350 ÷ 7 = 50 mph.' },
+  { topic:'realWorld', text:'Aaliyah needs $95 for a field trip. She earned $60 doing chores. How much more does she need?', math:'60 + m = 95', choices:['m = 155','m = 5700','m = 35','m = 60'], correct:2, explain:'Subtract 60 from both sides: m = 95 − 60 = $35.' },
+  { topic:'realWorld', text:'A recipe makes 48 cookies. Each bag holds 6 cookies. How many bags are needed?', math:'6b = 48', choices:['b = 8','b = 54','b = 42','b = 288'], correct:0, explain:'Divide both sides by 6: b = 48 ÷ 6 = 8 bags.' },
+  { topic:'realWorld', text:'Which equation best models: "A worker earns $11/hr and earned $88 total."', math:'', choices:['h + 11 = 88','11h = 88','h − 11 = 88','h ÷ 11 = 88'], correct:1, explain:'"Earns per hour" means multiplication: 11h = 88. Divide by 11: h = 8 hours.' },
+  { topic:'realWorld', text:'The school store started with some erasers. After selling 46, there are 29 left. Which equation?', math:'', choices:['e + 46 = 29','46e = 29','e − 46 = 29','e ÷ 46 = 29'], correct:2, explain:'"After selling" means subtraction: e − 46 = 29. Add 46: e = 75.' },
+  { topic:'realWorld', text:'Xavier collected 5 times as many cans as his friend. Xavier collected 60. How many did his friend collect?', math:'5f = 60', choices:['f = 300','f = 65','f = 55','f = 12'], correct:3, explain:'Divide both sides by 5: f = 60 ÷ 5 = 12 cans.' },
+  { topic:'realWorld', text:'A pool loses the same gallons each hour. After 6 hours, 144 gallons drained. Rate per hour?', math:'6r = 144', choices:['r = 150','r = 138','r = 24','r = 864'], correct:2, explain:'Divide both sides by 6: r = 144 ÷ 6 = 24 gallons per hour.' },
+  { topic:'realWorld', text:'After receiving 17 new books, the library has 312 books. How many were there before?', math:'b + 17 = 312', choices:['b = 329','b = 5304','b = 295','b = 17'], correct:2, explain:'Subtract 17 from both sides: b = 312 − 17 = 295 books.' },
+  { topic:'realWorld', text:'A store marks up each item by $8. A shirt now costs $31. What was the original price?', math:'p + 8 = 31', choices:['p = 39','p = 248','p = 23','p = 8'], correct:2, explain:'Subtract 8 from both sides: p = 31 − 8 = $23.' },
+  { topic:'realWorld', text:'Isaiah needs to walk at least 10,000 steps a day. He has walked 6,750 steps. How many more does he need?', math:'6750 + s ≥ 10000', choices:['s ≥ 3250','s ≥ 16750','s = 3250','s ≤ 3250'], correct:0, explain:'Subtract 6750: s ≥ 10000 − 6750 = 3250 more steps.' },
+  { topic:'realWorld', text:'A plumber charges $65/hr. After some hours the bill is $325. How many hours did she work?', math:'65h = 325', choices:['h = 390','h = 260','h = 5','h = 20'], correct:2, explain:'Divide both sides by 65: h = 325 ÷ 65 = 5 hours.' },
+  { topic:'realWorld', text:'A parking meter charges $0.50 per 15 minutes. Tomás paid $3.00. How many 15-min intervals?', math:'0.50n = 3.00', choices:['n = 1.5','n = 6','n = 3.5','n = 60'], correct:1, explain:'Divide both sides by 0.50: n = 3.00 ÷ 0.50 = 6 intervals.' },
+  { topic:'realWorld', text:'Destiny scored 12 more points than her previous high score of 45. What did she score this game?', math:'45 + 12 = s', choices:['s = 33','s = 540','s = 57','s = 12'], correct:2, explain:'Add: s = 45 + 12 = 57 points.' },
 
   // ---- INEQUALITIES ----
   { topic:'inequalities', text:'Which inequality means "a number is greater than 5"?', math:'', choices:['n < 5','n > 5','n = 5','n ≥ 5'], correct:1,
@@ -1208,64 +1222,208 @@ const errorHunts = [
 ];
 
 // ================================================
-// WORLD SERIES PROBLEMS
+// WORLD SERIES PROBLEMS (25 real-world problems)
 // ================================================
 const wsProblems = [
   {
-    scenario: "Coach Rivera orders jerseys for the team. Each jersey costs $12. The team spent exactly $96 on jerseys.",
-    question: "Write and solve an equation to find how many jerseys the team ordered.",
-    equation: "12j = 96",
-    answer: "8",
-    unit: "jerseys",
-    explain: "12j = 96. Divide both sides by 12: j = 96 ÷ 12 = 8 jerseys."
-  },
-  {
-    scenario: "Aaliyah is saving up for new cleats that cost $85. She already saved $47.",
-    question: "How much more money does Aaliyah need to save? Write and solve an equation.",
-    equation: "47 + m = 85",
-    answer: "38",
-    unit: "dollars",
-    explain: "47 + m = 85. Subtract 47 from both sides: m = 85 − 47 = $38."
-  },
-  {
-    scenario: "The baseball stadium has seats arranged in equal rows. There are 420 seats total and 35 seats per row.",
-    question: "Write and solve an equation to find the number of rows.",
-    equation: "35r = 420",
-    answer: "12",
-    unit: "rows",
-    explain: "35r = 420. Divide both sides by 35: r = 420 ÷ 35 = 12 rows."
-  },
-  {
-    scenario: "A pitcher's ERA (earned run average) dropped by 1.5 points to reach 3.0 this season.",
-    question: "What was the pitcher's ERA before the drop? Write and solve an equation.",
-    equation: "ERA − 1.5 = 3.0",
-    answer: "4.5",
-    unit: "",
-    explain: "ERA − 1.5 = 3.0. Add 1.5 to both sides: ERA = 3.0 + 1.5 = 4.5."
-  },
-  {
-    scenario: "The concession stand sold the same number of hot dogs each inning. After 6 innings, 54 hot dogs were sold.",
-    question: "How many hot dogs were sold each inning?",
-    equation: "6h = 54",
-    answer: "9",
-    unit: "per inning",
-    explain: "6h = 54. Divide both sides by 6: h = 54 ÷ 6 = 9 hot dogs per inning."
-  },
-  {
-    scenario: "A player needs at least 20 practice sessions to improve. He has completed 13 so far.",
-    question: "Write an inequality to show how many more sessions (s) he needs.",
-    equation: "s + 13 ≥ 20",
+    scenario: "Destiny works at a bakery and earns $9 per hour. Last Saturday she earned $63.",
+    question: "Write and solve an equation to find how many hours Destiny worked.",
+    equation: "9h = 63",
     answer: "7",
-    unit: "or more sessions",
-    explain: "s + 13 ≥ 20. Subtract 13: s ≥ 7. He needs at least 7 more sessions."
+    unit: "hours",
+    explain: "9h = 63. Divide both sides by 9: h = 63 ÷ 9 = 7 hours."
   },
   {
-    scenario: "Tickets to the championship cost the same price each. Five friends paid a total of $37.50.",
-    question: "What did each ticket cost? (Hint: divide both sides)",
-    equation: "5t = 37.50",
-    answer: "7.50",
+    scenario: "Marcus had some money in his piggy bank. He spent $14 on lunch and had $27 left.",
+    question: "How much money did Marcus start with? Write and solve an equation.",
+    equation: "m − 14 = 27",
+    answer: "41",
     unit: "dollars",
-    explain: "5t = 37.50. Divide both sides by 5: t = $7.50 per ticket."
+    explain: "m − 14 = 27. Add 14 to both sides: m = 27 + 14 = $41."
+  },
+  {
+    scenario: "A school van holds the same number of students in each row. With 6 rows, it fits 48 students.",
+    question: "How many students fit in each row?",
+    equation: "6r = 48",
+    answer: "8",
+    unit: "students per row",
+    explain: "6r = 48. Divide both sides by 6: r = 48 ÷ 6 = 8 students per row."
+  },
+  {
+    scenario: "Jaylen's height increased by 3 inches over the summer. He is now 62 inches tall.",
+    question: "How tall was Jaylen at the start of the summer?",
+    equation: "h + 3 = 62",
+    answer: "59",
+    unit: "inches",
+    explain: "h + 3 = 62. Subtract 3 from both sides: h = 62 − 3 = 59 inches."
+  },
+  {
+    scenario: "A phone plan costs the same amount each month. After 8 months, the total cost is $240.",
+    question: "What is the monthly cost of the phone plan?",
+    equation: "8m = 240",
+    answer: "30",
+    unit: "dollars per month",
+    explain: "8m = 240. Divide both sides by 8: m = 240 ÷ 8 = $30 per month."
+  },
+  {
+    scenario: "Keisha wants to read 120 pages. She has already read 45 pages.",
+    question: "How many more pages does Keisha need to read? Write and solve an equation.",
+    equation: "45 + p = 120",
+    answer: "75",
+    unit: "pages",
+    explain: "45 + p = 120. Subtract 45 from both sides: p = 120 − 45 = 75 pages."
+  },
+  {
+    scenario: "Coach Rivera splits 72 athletes equally into teams. Each team has 9 athletes.",
+    question: "How many teams are there? Write and solve an equation.",
+    equation: "9t = 72",
+    answer: "8",
+    unit: "teams",
+    explain: "9t = 72. Divide both sides by 9: t = 72 ÷ 9 = 8 teams."
+  },
+  {
+    scenario: "The temperature this morning was 58°F. By noon it had risen to 74°F.",
+    question: "By how many degrees did the temperature rise? Write and solve an equation.",
+    equation: "58 + d = 74",
+    answer: "16",
+    unit: "degrees",
+    explain: "58 + d = 74. Subtract 58 from both sides: d = 74 − 58 = 16 degrees."
+  },
+  {
+    scenario: "A bag of apples weighs 3 pounds. The total weight of several identical bags is 18 pounds.",
+    question: "How many bags are there? Write and solve an equation.",
+    equation: "3b = 18",
+    answer: "6",
+    unit: "bags",
+    explain: "3b = 18. Divide both sides by 3: b = 18 ÷ 3 = 6 bags."
+  },
+  {
+    scenario: "Tomás scored some points in a game. After losing 8 points for a penalty, he had 25 points.",
+    question: "How many points did Tomás have before the penalty?",
+    equation: "p − 8 = 25",
+    answer: "33",
+    unit: "points",
+    explain: "p − 8 = 25. Add 8 to both sides: p = 25 + 8 = 33 points."
+  },
+  {
+    scenario: "A movie streaming service costs $x per month. Brianna paid $60 for 5 months.",
+    question: "What is the monthly cost of the streaming service?",
+    equation: "5x = 60",
+    answer: "12",
+    unit: "dollars",
+    explain: "5x = 60. Divide both sides by 5: x = 60 ÷ 5 = $12 per month."
+  },
+  {
+    scenario: "Darius ran a race. His finishing time was 14 seconds slower than his personal best of 52 seconds.",
+    question: "What was Darius's finishing time in the race?",
+    equation: "t = 52 + 14",
+    answer: "66",
+    unit: "seconds",
+    explain: "Add: t = 52 + 14 = 66 seconds."
+  },
+  {
+    scenario: "A parking garage charges the same rate per hour. Nadia parked for 4 hours and paid $28.",
+    question: "What is the hourly parking rate?",
+    equation: "4r = 28",
+    answer: "7",
+    unit: "dollars per hour",
+    explain: "4r = 28. Divide both sides by 4: r = 28 ÷ 4 = $7 per hour."
+  },
+  {
+    scenario: "Lena has a goal to collect 200 cans for the food drive. So far she collected 137 cans.",
+    question: "How many more cans does Lena need to reach her goal?",
+    equation: "137 + c = 200",
+    answer: "63",
+    unit: "cans",
+    explain: "137 + c = 200. Subtract 137: c = 200 − 137 = 63 cans."
+  },
+  {
+    scenario: "A recipe calls for flour to be divided equally into 4 bowls. Each bowl gets 3/4 cup.",
+    question: "How many cups of flour are needed in total?",
+    equation: "f ÷ 4 = 3/4",
+    answer: "3",
+    unit: "cups",
+    explain: "f ÷ 4 = 3/4. Multiply both sides by 4: f = 3/4 × 4 = 3 cups."
+  },
+  {
+    scenario: "Jordan's older sister is 7 years older than Jordan. His sister is 19 years old.",
+    question: "How old is Jordan? Write and solve an equation.",
+    equation: "j + 7 = 19",
+    answer: "12",
+    unit: "years old",
+    explain: "j + 7 = 19. Subtract 7 from both sides: j = 19 − 7 = 12 years old."
+  },
+  {
+    scenario: "A store sells T-shirts for $15 each. Ms. Thompson spent $90 on T-shirts for her class.",
+    question: "How many T-shirts did she buy?",
+    equation: "15t = 90",
+    answer: "6",
+    unit: "T-shirts",
+    explain: "15t = 90. Divide both sides by 15: t = 90 ÷ 15 = 6 T-shirts."
+  },
+  {
+    scenario: "Before the game, the snack bar had some bottles of water. During the game, they sold 48 bottles and had 17 left.",
+    question: "How many bottles did they start with?",
+    equation: "b − 48 = 17",
+    answer: "65",
+    unit: "bottles",
+    explain: "b − 48 = 17. Add 48 to both sides: b = 17 + 48 = 65 bottles."
+  },
+  {
+    scenario: "A taxi charges a flat fee plus $2 per mile. For a 9-mile trip, the total was $23. (Flat fee = f)",
+    question: "What is the flat fee? Hint: f + 2(9) = 23, so f + 18 = 23.",
+    equation: "f + 18 = 23",
+    answer: "5",
+    unit: "dollars",
+    explain: "f + 18 = 23. Subtract 18 from both sides: f = 23 − 18 = $5 flat fee."
+  },
+  {
+    scenario: "Xavier is downloading songs. He downloaded 24 songs, which is 1/3 of his total playlist goal.",
+    question: "How many songs does Xavier want in his full playlist?",
+    equation: "p ÷ 3 = 24",
+    answer: "72",
+    unit: "songs",
+    explain: "p ÷ 3 = 24. Multiply both sides by 3: p = 24 × 3 = 72 songs."
+  },
+  {
+    scenario: "A school fundraiser has a goal of $500. The 6th grade raised $175 and the 7th grade raised $210.",
+    question: "How much more money is needed to reach the goal? (175 + 210 + m = 500)",
+    equation: "385 + m = 500",
+    answer: "115",
+    unit: "dollars",
+    explain: "175 + 210 = 385. Then 385 + m = 500. Subtract 385: m = 500 − 385 = $115."
+  },
+  {
+    scenario: "A dog groomer charges $35 per dog. At the end of the day she had earned $245.",
+    question: "How many dogs did she groom?",
+    equation: "35d = 245",
+    answer: "7",
+    unit: "dogs",
+    explain: "35d = 245. Divide both sides by 35: d = 245 ÷ 35 = 7 dogs."
+  },
+  {
+    scenario: "Isaiah needs to practice piano for at least 30 minutes each day. Today he has practiced 18 minutes.",
+    question: "Write and solve an inequality for how many more minutes (m) he needs to practice.",
+    equation: "18 + m ≥ 30",
+    answer: "12",
+    unit: "or more minutes",
+    explain: "18 + m ≥ 30. Subtract 18: m ≥ 30 − 18 = 12. He needs at least 12 more minutes."
+  },
+  {
+    scenario: "A florist made identical bouquets using 56 roses total. Each bouquet uses 8 roses.",
+    question: "How many bouquets did the florist make?",
+    equation: "8b = 56",
+    answer: "7",
+    unit: "bouquets",
+    explain: "8b = 56. Divide both sides by 8: b = 56 ÷ 8 = 7 bouquets."
+  },
+  {
+    scenario: "After spending $22 at the school store, Amara had $9 left. She started with some amount of money.",
+    question: "How much money did Amara start with?",
+    equation: "a − 22 = 9",
+    answer: "31",
+    unit: "dollars",
+    explain: "a − 22 = 9. Add 22 to both sides: a = 9 + 22 = $31."
   },
 ];
 
