@@ -908,12 +908,33 @@
       <div class="ws-text" id="wsText"></div>
     </div>
     <div class="question-text" id="wsQuestion"></div>
-    <div class="math-display" id="wsMath" style="display:none"></div>
-    <div class="input-group">
-      <input class="answer-input" id="wsInput" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkWS()">
-      <button class="submit-btn" onclick="checkWS()">SUBMIT</button>
+
+    <!-- STEP 1: Write the equation -->
+    <div id="wsStep1">
+      <div style="background:#e8f0f8;border-radius:10px;padding:14px 16px;margin:14px 0 8px;border-left:4px solid var(--teal)">
+        <div style="font-family:'Oswald',sans-serif;font-size:0.8rem;letter-spacing:2px;color:var(--teal);margin-bottom:6px">STEP 1 — WRITE THE EQUATION</div>
+        <div style="font-size:0.9rem;font-weight:700;color:#444;margin-bottom:10px">Use a variable. Write the equation that matches this situation. (Example: <em>8h = 48</em>)</div>
+        <div class="input-group">
+          <input class="answer-input" id="wsEqInput" type="text" placeholder="e.g.  8h = 48" onkeydown="if(event.key==='Enter')checkWSEquation()">
+          <button class="submit-btn" onclick="checkWSEquation()">CHECK ⚾</button>
+        </div>
+      </div>
+      <div class="feedback-bar" id="wsEqFeedback"></div>
     </div>
-    <div class="feedback-bar" id="wsFeedback"></div>
+
+    <!-- STEP 2: Solve (shown after equation accepted) -->
+    <div id="wsStep2" style="display:none">
+      <div style="background:#e8f7f0;border-radius:10px;padding:14px 16px;margin:14px 0 8px;border-left:4px solid var(--correct)">
+        <div style="font-family:'Oswald',sans-serif;font-size:0.8rem;letter-spacing:2px;color:var(--correct);margin-bottom:6px">STEP 2 — SOLVE FOR THE VARIABLE</div>
+        <div style="font-size:0.95rem;font-weight:700;color:#444;margin-bottom:10px">Your equation: <span id="wsAcceptedEq" style="color:var(--navy);font-family:'Oswald',sans-serif;font-size:1.1rem"></span></div>
+        <div class="input-group">
+          <input class="answer-input" id="wsAnsInput" type="text" placeholder="Answer (number only)..." onkeydown="if(event.key==='Enter')checkWSAnswer()">
+          <button class="submit-btn" onclick="checkWSAnswer()">SUBMIT ⚾</button>
+        </div>
+      </div>
+      <div class="feedback-bar" id="wsAnsFeedback"></div>
+    </div>
+
   </div>
   <button class="next-btn" id="wsNextBtn" onclick="nextWS()">⚾ NEXT WORLD SERIES PROBLEM →</button>
 </div>
@@ -1948,56 +1969,177 @@ function endSpeedRound() {
 }
 
 // ================================================
-// WORLD SERIES (TAB 5)
+// WORLD SERIES (TAB 5) — Two-step: write equation, then solve
 // ================================================
+
+// Normalize an equation string for flexible matching:
+// strips spaces, lowercases, sorts both sides so "48=8h" matches "8h=48"
+function normalizeEq(str) {
+  return str.toLowerCase()
+    .replace(/\s+/g, '')
+    .replace(/×/g, '*').replace(/÷/g, '/')
+    .replace(/x/g, 'x'); // keep x as variable letter
+}
+
+// Check if the student's equation is structurally equivalent to any accepted form
+function equationMatches(input, prob) {
+  const cleaned = normalizeEq(input);
+  // Build accepted forms from the canonical equation + variable name
+  const accepted = buildAcceptedForms(prob);
+  return accepted.some(form => normalizeEq(form) === cleaned);
+}
+
+function buildAcceptedForms(prob) {
+  // canonical equation from data e.g. "9h = 63"
+  const canon = prob.equation;
+  // Also accept with any single-letter variable (student may use x, n, etc.)
+  // Split on = or ≥ or ≤ or > or <
+  const opMatch = canon.match(/([^=<>≤≥]+)([=<>≤≥]+)([^=<>≤≥]+)/);
+  if (!opMatch) return [canon];
+  const left = opMatch[1].trim();
+  const op = opMatch[2].trim();
+  const right = opMatch[3].trim();
+
+  const forms = [canon, `${left}${op}${right}`, `${right}${op}${left}`];
+
+  // Generate variants with common student variables: x, n, m, t, h, c, b, p, s, d, r, a, f, e, w, k, j
+  const varLetters = ['x','n','m','t','h','c','b','p','s','d','r','a','f','e','w','k','j','v','q','z'];
+  // Find the variable in the canonical equation (single letter surrounded by operators/numbers)
+  const varMatch = canon.match(/(?<![a-z])([a-z])(?![a-z])/i);
+  if (varMatch) {
+    const origVar = varMatch[1].toLowerCase();
+    varLetters.forEach(v => {
+      if (v !== origVar) {
+        const swapped = canon.replace(new RegExp(`(?<![a-z])${origVar}(?![a-z])`, 'gi'), v);
+        forms.push(swapped, swapped.replace(/\s/g,''));
+        // also reversed
+        const swappedLeft = left.replace(new RegExp(`(?<![a-z])${origVar}(?![a-z])`, 'gi'), v);
+        const swappedRight = right.replace(new RegExp(`(?<![a-z])${origVar}(?![a-z])`, 'gi'), v);
+        forms.push(`${swappedRight}${op}${swappedLeft}`);
+      }
+    });
+  }
+  return forms;
+}
+
 function loadWS() {
   const prob = wsProblems[state.wsIdx % wsProblems.length];
   document.getElementById('wsText').textContent = prob.scenario;
   document.getElementById('wsQuestion').textContent = prob.question;
 
-  const mathEl = document.getElementById('wsMath');
-  if (prob.equation) {
-    mathEl.style.display = 'block';
-    mathEl.textContent = 'Equation: ' + prob.equation;
-  } else {
-    mathEl.style.display = 'none';
-  }
-
-  document.getElementById('wsInput').value = '';
-  document.getElementById('wsFeedback').className = 'feedback-bar';
+  // Reset both steps
+  document.getElementById('wsStep1').style.display = 'block';
+  document.getElementById('wsStep2').style.display = 'none';
+  document.getElementById('wsEqInput').value = '';
+  document.getElementById('wsAnsInput').value = '';
+  document.getElementById('wsEqFeedback').className = 'feedback-bar';
+  document.getElementById('wsAnsFeedback').className = 'feedback-bar';
   document.getElementById('wsNextBtn').className = 'next-btn';
+  document.getElementById('wsEqInput').disabled = false;
+  document.getElementById('wsAnsInput').disabled = false;
+
+  state.wsEqCorrect = false;
 }
 
-function checkWS() {
+function checkWSEquation() {
   const prob = wsProblems[state.wsIdx % wsProblems.length];
-  const input = document.getElementById('wsInput').value.trim();
-  const fb = document.getElementById('wsFeedback');
-  state.totalAttempted++;
+  const input = document.getElementById('wsEqInput').value.trim();
+  const fb = document.getElementById('wsEqFeedback');
 
-  const userAns = parseFloat(input.replace('$','').replace(',',''));
+  if (!input) {
+    fb.className = 'feedback-bar show wrong-fb';
+    fb.innerHTML = '⚠️ Type your equation first!';
+    return;
+  }
+
+  // Must contain a variable letter, an = or inequality sign, and numbers
+  const hasVar = /[a-z]/i.test(input);
+  const hasEqSign = /[=<>≤≥]/.test(input);
+  const hasNum = /\d/.test(input);
+
+  if (!hasVar || !hasEqSign || !hasNum) {
+    fb.className = 'feedback-bar show wrong-fb';
+    fb.innerHTML = `❌ Your equation needs a <strong>variable</strong>, an <strong>= sign</strong>, and <strong>numbers</strong>. Try again! (Example: <em>${prob.equation}</em>)`;
+    return;
+  }
+
+  if (equationMatches(input, prob)) {
+    fb.className = 'feedback-bar show correct-fb';
+    fb.innerHTML = `✅ <strong>Perfect equation!</strong> Now solve for the variable.`;
+    document.getElementById('wsEqInput').disabled = true;
+    document.getElementById('wsAcceptedEq').textContent = input;
+    document.getElementById('wsStep2').style.display = 'block';
+    document.getElementById('wsAnsInput').focus();
+    state.wsEqCorrect = true;
+  } else {
+    fb.className = 'feedback-bar show wrong-fb';
+    // Give a targeted hint without giving away the full equation
+    const hint = buildEqHint(input, prob);
+    fb.innerHTML = `❌ ${hint}`;
+  }
+}
+
+function buildEqHint(input, prob) {
+  const cleanInput = input.replace(/\s/g,'').toLowerCase();
+  const canon = prob.equation.replace(/\s/g,'').toLowerCase();
+  // Check if numbers are right but operation is wrong
+  const canonNums = canon.match(/\d+\.?\d*/g) || [];
+  const inputNums = (cleanInput.match(/\d+\.?\d*/g) || []).sort();
+  const canonNumsSorted = [...canonNums].sort();
+  const numsMatch = JSON.stringify(inputNums) === JSON.stringify(canonNumsSorted);
+
+  if (numsMatch) return `The numbers look right but the <strong>operation or structure</strong> isn't quite right. Think about what's happening in the problem — are things being multiplied, divided, added, or subtracted?`;
+  if (!(/[=]/.test(cleanInput))) return `Don't forget an <strong>equals sign</strong> in your equation!`;
+  if (!(/[a-z]/.test(cleanInput))) return `Your equation needs a <strong>variable</strong> (like <em>n</em>, <em>x</em>, or any letter) to represent the unknown value.`;
+  return `Not quite. Re-read the problem and decide: what is the <strong>unknown</strong>? What operation connects the numbers?`;
+}
+
+function checkWSAnswer() {
+  const prob = wsProblems[state.wsIdx % wsProblems.length];
+  const input = document.getElementById('wsAnsInput').value.trim();
+  const fb = document.getElementById('wsAnsFeedback');
+
+  if (!input) {
+    fb.className = 'feedback-bar show wrong-fb';
+    fb.innerHTML = '⚠️ Enter your answer!';
+    return;
+  }
+
+  state.totalAttempted++;
+  const userAns = parseFloat(input.replace(/[^0-9.\-]/g, ''));
   const correct = parseFloat(prob.answer);
 
   if (Math.abs(userAns - correct) < 0.01) {
     fb.className = 'feedback-bar show correct-fb';
-    fb.innerHTML = `⚾ HOME RUN! ${prob.explain}`;
+    fb.innerHTML = `🏠 <strong>HOME RUN!</strong> ${prob.explain}`;
     state.totalCorrect++; state.hits++; state.runs++;
     showPitchResult('HOME RUN! 🏠', 'homer');
     showConfetti(25);
     launchBall();
+    document.getElementById('wsAnsInput').disabled = true;
+    document.getElementById('wsNextBtn').className = 'next-btn show';
+    checkAchievements();
   } else {
     fb.className = 'feedback-bar show wrong-fb';
-    fb.innerHTML = `❌ Keep trying! Hint: ${prob.explain}`;
+    fb.innerHTML = `❌ <strong>Not quite.</strong> Check your work — use inverse operations on both sides. Try again!`;
     state.outs++;
     updateOuts();
     showPitchResult('OUT! ❌', 'out');
+    // After 2 wrong answer attempts, show the explain
+    state.wsWrongCount = (state.wsWrongCount || 0) + 1;
+    if (state.wsWrongCount >= 2) {
+      fb.innerHTML = `❌ <strong>Keep going!</strong> Hint: ${prob.explain}`;
+      document.getElementById('wsNextBtn').className = 'next-btn show';
+    }
   }
   updateScoreboard();
-  document.getElementById('wsNextBtn').className = 'next-btn show';
 }
 
 function nextWS() {
   state.wsIdx++;
+  state.wsWrongCount = 0;
   loadWS();
+}
 }
 
 // ================================================
