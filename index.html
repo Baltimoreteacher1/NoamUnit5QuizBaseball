@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Equation All-Stars ⚾ Unit 5 Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&family=Oswald:wght@400;600;700&display=swap');
+
+  :root {
+    --grass: #2d5a1b;
+    --grass-light: #3a7523;
+    --dirt: #c4874a;
+    --dirt-dark: #a06030;
+    --sky: #1a3a6b;
+    --sky-light: #2255aa;
+    --white: #f5f0e8;
+    --yellow: #f5c518;
+    --red: #d42b2b;
+    --navy: #0d1b3e;
+    --teal: #1fa6a2;
+    --amber: #f2a900;
+    --correct: #27ae60;
+    --wrong: #e74c3c;
+    --card-bg: rgba(255,255,255,0.95);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(180deg, #0a1628 0%, #1a3a6b 40%, #2d5a1b 40%, #2d5a1b 100%);
+    min-height: 100vh;
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ===== STADIUM HEADER ===== */
+  .stadium-header {
+    background: linear-gradient(135deg, #0d1b3e 0%, #1a2f5e 50%, #0d1b3e 100%);
+    border-bottom: 4px solid var(--yellow);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .stadium-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--yellow);
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 var(--dirt-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .scoreboard {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .score-box {
+    background: #0a0f1e;
+    border: 2px solid var(--yellow);
+    border-radius: 8px;
+    padding: 6px 16px;
+    text-align: center;
+    min-width: 80px;
+  }
+
+  .score-label {
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    text-transform: uppercase;
+  }
+
+  .score-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    color: var(--white);
+    line-height: 1;
+  }
+
+  /* ===== BASEBALL DIAMOND ===== */
+  .diamond-container {
+    display: flex;
+    justify-content: center;
+    padding: 15px 0 5px;
+  }
+
+  .diamond {
+    position: relative;
+    width: 160px;
+    height: 160px;
+  }
+
+  .base {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: var(--white);
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+  }
+
+  .base.active { background: var(--yellow); border-color: var(--amber); box-shadow: 0 0 12px var(--yellow); }
+  .base.home { bottom: 0; left: 50%; transform: translateX(-50%) rotate(45deg); }
+  .base.first { right: 8px; top: 50%; transform: translateY(-50%) rotate(45deg); }
+  .base.second { top: 0; left: 50%; transform: translateX(-50%) rotate(45deg); }
+  .base.third { left: 8px; top: 50%; transform: translateY(-50%) rotate(45deg); }
+
+  .runner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: var(--teal);
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    font-size: 0.55rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: white;
+    box-shadow: 0 0 8px rgba(31,166,162,0.8);
+    transition: all 0.5s ease;
+    z-index: 5;
+    display: none;
+  }
+
+  .runner.visible { display: flex; }
+
+  /* Outs display */
+  .outs-display {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .out-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--yellow);
+    background: transparent;
+    transition: all 0.3s;
+  }
+
+  .out-dot.filled { background: var(--red); border-color: var(--red); }
+
+  /* ===== TABS ===== */
+  .tabs-bar {
+    display: flex;
+    gap: 6px;
+    padding: 12px 20px 0;
+    background: linear-gradient(180deg, #1a3a6b, #0d1b3e);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .tab-btn {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 8px 14px;
+    border: 2px solid rgba(245,197,24,0.4);
+    border-radius: 8px 8px 0 0;
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .tab-btn:hover { background: rgba(255,255,255,0.12); color: white; border-color: var(--yellow); }
+  .tab-btn.active { background: var(--yellow); color: var(--navy); border-color: var(--yellow); font-weight: 700; }
+
+  /* ===== MAIN GAME AREA ===== */
+  .game-area {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ===== QUESTION CARD ===== */
+  .question-card {
+    background: var(--card-bg);
+    color: var(--navy);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    border: 3px solid transparent;
+    transition: border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .question-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--teal);
+  }
+
+  .pitch-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 3px;
+    color: var(--teal);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .question-text {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .math-display {
+    background: linear-gradient(135deg, #e8f4f8, #d4eef8);
+    border: 2px solid var(--teal);
+    border-radius: 12px;
+    padding: 16px 24px;
+    font-size: 1.6rem;
+    font-weight: 900;
+    text-align: center;
+    color: var(--navy);
+    margin: 14px 0;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 2px;
+  }
+
+  /* ===== ANSWER OPTIONS ===== */
+  .choices-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .choice-btn {
+    background: white;
+    border: 2.5px solid #dde4ed;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .choice-btn:hover:not(:disabled) {
+    border-color: var(--teal);
+    background: #e8f7f7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(31,166,162,0.2);
+  }
+
+  .choice-btn.correct { background: #d4f7e0; border-color: var(--correct); color: #145a32; }
+  .choice-btn.wrong { background: #fde8e8; border-color: var(--wrong); color: #7b1a1a; }
+  .choice-btn:disabled { cursor: not-allowed; }
+
+  .choice-letter {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .correct .choice-letter { background: var(--correct); }
+  .wrong .choice-letter { background: var(--wrong); }
+
+  /* ===== FREE RESPONSE ===== */
+  .input-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .answer-input {
+    flex: 1;
+    padding: 14px 18px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: 'Nunito', sans-serif;
+    border: 2.5px solid #dde4ed;
+    border-radius: 12px;
+    outline: none;
+    transition: border-color 0.2s;
+    color: var(--navy);
+  }
+
+  .answer-input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(31,166,162,0.15); }
+
+  .submit-btn {
+    padding: 14px 24px;
+    background: var(--teal);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .submit-btn:hover { background: #179390; transform: translateY(-1px); }
+
+  /* ===== FEEDBACK ===== */
+  .feedback-bar {
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    display: none;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .feedback-bar.show { display: flex; }
+  .feedback-bar.correct-fb { background: #d4f7e0; color: #145a32; border: 2px solid var(--correct); }
+  .feedback-bar.wrong-fb { background: #fde8e8; color: #7b1a1a; border: 2px solid var(--wrong); }
+
+  /* ===== PITCH RESULT ANIMATION ===== */
+  .pitch-result {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem;
+    letter-spacing: 4px;
+    z-index: 1000;
+    pointer-events: none;
+    transition: all 0.3s;
+    text-shadow: 4px 4px 0 rgba(0,0,0,0.5);
+  }
+
+  .pitch-result.show { transform: translate(-50%, -50%) scale(1); }
+  .pitch-result.hit { color: var(--yellow); }
+  .pitch-result.out { color: var(--red); }
+  .pitch-result.homer { color: #ff6b35; }
+
+  /* ===== NEXT BUTTON ===== */
+  .next-btn {
+    display: none;
+    width: 100%;
+    margin-top: 12px;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--navy), var(--sky-light));
+    color: var(--yellow);
+    border: 2px solid var(--yellow);
+    border-radius: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .next-btn:hover { background: linear-gradient(135deg, var(--sky-light), var(--navy)); transform: translateY(-2px); }
+  .next-btn.show { display: block; }
+
+  /* ===== INNING TRACKER ===== */
+  .inning-strip {
+    background: rgba(0,0,0,0.3);
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid rgba(245,197,24,0.3);
+  }
+
+  .inning-info {
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: var(--yellow);
+    text-transform: uppercase;
+  }
+
+  .topic-badge {
+    background: var(--teal);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ===== DRAG & DROP (Sorting Activity) ===== */
+  .sort-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .sort-zone {
+    background: white;
+    border: 3px dashed #aaa;
+    border-radius: 12px;
+    min-height: 160px;
+    padding: 14px;
+    transition: border-color 0.2s;
+  }
+
+  .sort-zone.drag-over { border-color: var(--teal); background: #e8f7f7; }
+  .sort-zone.correct-zone { border-color: var(--correct); border-style: solid; background: #d4f7e0; }
+  .sort-zone.wrong-zone { border-color: var(--wrong); border-style: solid; background: #fde8e8; }
+
+  .sort-zone-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+    text-align: center;
+    letter-spacing: 1px;
+  }
+
+  .drag-card {
+    background: linear-gradient(135deg, #e8f0f8, #d4e4f7);
+    border: 2px solid #b8d0eb;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    cursor: grab;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    font-family: 'Oswald', sans-serif;
+    transition: all 0.2s;
+    text-align: center;
+    user-select: none;
+  }
+
+  .drag-card:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .drag-card.dragging { opacity: 0.4; }
+  .drag-card.correct-card { background: linear-gradient(135deg, #d4f7e0, #b8f0cc); border-color: var(--correct); color: #145a32; }
+  .drag-card.wrong-card { background: linear-gradient(135deg, #fde8e8, #fac8c8); border-color: var(--wrong); color: #7b1a1a; }
+
+  .drag-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+    min-height: 60px;
+  }
+
+  .drag-bank .drag-card { margin: 0; }
+
+  /* ===== ERROR HUNT ===== */
+  .work-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .work-step {
+    background: white;
+    border: 2px solid #dde4ed;
+    border-radius: 10px;
+    padding: 14px 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .work-step:hover { border-color: var(--amber); background: #fffbee; }
+  .work-step.selected-error { border-color: var(--wrong); background: #fde8e8; }
+  .work-step.correct-error { border-color: var(--correct); background: #d4f7e0; }
+  .work-step.step-correct { border-color: #b8d0eb; background: #e8f0f8; cursor: default; }
+
+  .step-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  /* ===== FILL IN BLANK ===== */
+  .equation-display {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin: 18px 0;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .blank-box {
+    display: inline-block;
+    min-width: 60px;
+    border-bottom: 4px solid var(--teal);
+    text-align: center;
+    padding: 2px 8px;
+    color: var(--teal);
+    font-weight: 900;
+  }
+
+  /* ===== SPEED ROUND ===== */
+  .speed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .speed-card {
+    background: white;
+    border: 2.5px solid #dde4ed;
+    border-radius: 12px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .speed-card:hover { border-color: var(--teal); background: #e8f7f7; transform: scale(1.03); }
+  .speed-card.correct { background: #d4f7e0; border-color: var(--correct); animation: pop 0.3s; }
+  .speed-card.wrong { background: #fde8e8; border-color: var(--wrong); animation: shake 0.3s; }
+
+  .speed-equation { font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 700; color: var(--navy); }
+  .speed-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 8px; }
+  .speed-choice { padding: 5px; background: #f0f4f8; border-radius: 6px; font-size: 0.85rem; font-weight: 700; color: var(--navy); cursor: pointer; transition: all 0.15s; }
+  .speed-choice:hover { background: var(--teal); color: white; }
+
+  /* ===== WORLD SERIES (Final Boss) ===== */
+  .ws-scenario {
+    background: linear-gradient(135deg, #fff8e1, #fff3cc);
+    border: 3px solid var(--amber);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .ws-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 3px;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+
+  .ws-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  /* ===== PROGRESS ===== */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.1);
+    border-radius: 20px;
+    height: 8px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--teal), var(--yellow));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+  }
+
+  /* ===== MODALS ===== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+    display: none;
+  }
+
+  .modal-overlay.show { display: flex; }
+
+  .modal-box {
+    background: var(--navy);
+    border: 3px solid var(--yellow);
+    border-radius: 20px;
+    padding: 36px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--yellow); letter-spacing: 3px; margin-bottom: 12px; }
+  .modal-body { font-size: 1rem; color: rgba(255,255,255,0.85); margin-bottom: 24px; line-height: 1.6; }
+  .modal-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+  .modal-stat { background: rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; }
+  .modal-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--yellow); }
+  .modal-stat-lbl { font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+
+  .modal-btn {
+    padding: 14px 32px;
+    background: var(--yellow);
+    color: var(--navy);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .modal-btn:hover { background: var(--amber); transform: scale(1.03); }
+
+  /* ===== LEADERBOARD ===== */
+  .board-section { background: var(--card-bg); color: var(--navy); border-radius: 16px; padding: 24px; margin-bottom: 16px; }
+  .board-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 3px; color: var(--navy); margin-bottom: 16px; text-align: center; border-bottom: 3px solid var(--teal); padding-bottom: 8px; }
+
+  .topic-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .topic-name { font-weight: 800; font-size: 0.9rem; color: var(--navy); min-width: 180px; }
+  .topic-bar-wrap { flex: 1; background: #e8f0f8; border-radius: 20px; height: 18px; overflow: hidden; }
+  .topic-bar { height: 100%; background: linear-gradient(90deg, var(--teal), var(--sky-light)); border-radius: 20px; transition: width 0.5s; }
+  .topic-pct { font-weight: 800; font-size: 0.85rem; color: var(--sky-light); min-width: 40px; text-align: right; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+
+  @keyframes flyIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes ballFly {
+    0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 1; }
+    70% { transform: translate(-50%, -250%) scale(1.2) rotate(360deg); opacity: 1; }
+    100% { transform: translate(-50%, -400%) scale(0.5) rotate(720deg); opacity: 0; }
+  }
+
+  .ball-emoji {
+    position: fixed;
+    font-size: 3rem;
+    top: 50%;
+    left: 50%;
+    pointer-events: none;
+    z-index: 999;
+    display: none;
+  }
+
+  .ball-emoji.fly { display: block; animation: ballFly 1s forwards; }
+
+  /* ===== STARS ===== */
+  .stars-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 998;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+    animation: confettiFall 2s forwards;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(-50px) rotate(0); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .choices-grid { grid-template-columns: 1fr; }
+    .sort-container { grid-template-columns: 1fr; }
+    .speed-grid { grid-template-columns: 1fr 1fr; }
+    .modal-stats { grid-template-columns: 1fr; }
+    .tab-btn { font-size: 0.65rem; padding: 6px 10px; }
+    .question-text { font-size: 1.1rem; }
+    .stadium-logo { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PITCH RESULT OVERLAY -->
+<div class="pitch-result" id="pitchResult"></div>
+<div class="ball-emoji" id="ballEmoji">⚾</div>
+<div class="stars-container" id="starsContainer"></div>
+
+<!-- HEADER -->
+<div class="stadium-header">
+  <div class="stadium-logo">⚾ Equation All-Stars</div>
+
+  <div style="display:flex;align-items:center;gap:14px">
+    <!-- Diamond -->
+    <div class="diamond-container" style="padding:0">
+      <div class="diamond" style="width:90px;height:90px">
+        <div class="base second" id="base2" style="width:16px;height:16px;top:2px;left:calc(50% - 8px)"></div>
+        <div class="base third" id="base3" style="width:16px;height:16px;left:4px;top:calc(50% - 8px)"></div>
+        <div class="base first" id="base1" style="width:16px;height:16px;right:4px;top:calc(50% - 8px)"></div>
+        <div class="base home" id="base0" style="width:16px;height:16px;bottom:2px;left:calc(50% - 8px)"></div>
+      </div>
+    </div>
+
+    <div class="scoreboard">
+      <div class="score-box">
+        <div class="score-label">Runs</div>
+        <div class="score-value" id="scoreDisplay">0</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">Hits</div>
+        <div class="score-value" id="hitsDisplay">0</div>
+      </div>
+      <div class="score-box" style="min-width:60px">
+        <div class="score-label">Outs</div>
+        <div class="outs-display" style="justify-content:center;padding-top:4px">
+          <div class="out-dot" id="out1"></div>
+          <div class="out-dot" id="out2"></div>
+          <div class="out-dot" id="out3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('batting')">⚾ Batting Practice</button>
+  <button class="tab-btn" onclick="switchTab('sorting')">🗂️ Sort It Out</button>
+  <button class="tab-btn" onclick="switchTab('errorhunt')">🔍 Error Hunt</button>
+  <button class="tab-btn" onclick="switchTab('speedround')">⚡ Speed Round</button>
+  <button class="tab-btn" onclick="switchTab('worldseries')">🏆 World Series</button>
+  <button class="tab-btn" onclick="switchTab('scoreboard')">📊 Scoreboard</button>
+</div>
+
+<!-- ================================================
+     TAB 1: BATTING PRACTICE (MC Questions)
+     ================================================ -->
+<div class="game-area">
+
+<div id="panel-batting" class="panel active">
+  <div class="inning-strip">
+    <div class="inning-info" id="inningLabel">INNING 1 — AT BAT</div>
+    <div class="topic-badge" id="topicBadge">Loading...</div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <br>
+  <div class="question-card" id="questionCard">
+    <div class="pitch-label" id="pitchLabel">PITCH 1</div>
+    <div class="question-text" id="questionText">Loading question...</div>
+    <div class="math-display" id="mathDisplay" style="display:none"></div>
+    <div class="choices-grid" id="choicesGrid"></div>
+    <div class="feedback-bar" id="feedbackBar"></div>
+  </div>
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">⚾ NEXT PITCH →</button>
+</div>
+
+<!-- ================================================
+     TAB 2: SORT IT OUT (Drag & Drop)
+     ================================================ -->
+<div id="panel-sorting" class="panel">
+  <div class="question-card">
+    <div class="pitch-label">SORT IT OUT — DRAG & DROP</div>
+    <div class="question-text" id="sortQuestion">Drag each expression to the correct category.</div>
+    <div class="drag-bank" id="dragBank"></div>
+    <div class="sort-container">
+      <div>
+        <div class="sort-zone" id="zone0" ondragover="dragOver(event)" ondrop="dropCard(event,0)">
+          <div class="sort-zone-label" id="zoneLabel0">Category A</div>
+        </div>
+      </div>
+      <div>
+        <div class="sort-zone" id="zone1" ondragover="dragOver(event)" ondrop="dropCard(event,1)">
+          <div class="sort-zone-label" id="zoneLabel1">Category B</div>
+        </div>
+      </div>
+    </div>
+    <button class="submit-btn" style="margin-top:14px;width:100%;font-size:1rem" onclick="checkSort()">CHECK MY SORT ⚾</button>
+    <div class="feedback-bar" id="sortFeedback"></div>
+  </div>
+  <button class="next-btn" id="sortNextBtn" onclick="nextSort()">⚾ NEXT SORT →</button>
+</div>
+
+<!-- ================================================
+     TAB 3: ERROR HUNT
+     ================================================ -->
+<div id="panel-errorhunt" class="panel">
+  <div class="question-card">
+    <div class="pitch-label">ERROR HUNT — FIND THE MISTAKE</div>
+    <div class="question-text" id="errorQuestion">Someone tried to solve this problem. Find the step where they made their first mistake.</div>
+    <div class="math-display" id="errorProblem"></div>
+    <div class="work-steps" id="workSteps"></div>
+    <div class="feedback-bar" id="errorFeedback"></div>
+  </div>
+  <button class="next-btn" id="errorNextBtn" onclick="nextError()">⚾ NEXT ERROR HUNT →</button>
+</div>
+
+<!-- ================================================
+     TAB 4: SPEED ROUND
+     ================================================ -->
+<div id="panel-speedround" class="panel">
+  <div class="question-card" style="text-align:center">
+    <div class="pitch-label">SPEED ROUND ⚡</div>
+    <div class="question-text" style="text-align:center">Solve as many as you can! ⏱️ <span id="speedTimer" style="color:var(--red);font-size:1.4rem">60</span>s</div>
+    <div style="font-size:1.1rem;font-weight:800;color:var(--teal);margin-bottom:6px">Score: <span id="speedScore">0</span> | Streak: <span id="speedStreak">0</span>🔥</div>
+  </div>
+  <div class="speed-grid" id="speedGrid"></div>
+  <div style="text-align:center;margin-top:12px">
+    <button class="submit-btn" id="speedStartBtn" onclick="startSpeedRound()" style="font-size:1.1rem;padding:14px 36px">⚡ START SPEED ROUND</button>
+  </div>
+</div>
+
+<!-- ================================================
+     TAB 5: WORLD SERIES (Real World Problems)
+     ================================================ -->
+<div id="panel-worldseries" class="panel">
+  <div class="question-card">
+    <div class="pitch-label">🏆 WORLD SERIES — REAL WORLD PROBLEMS</div>
+    <div class="ws-scenario" id="wsScenario">
+      <div class="ws-label">📰 THE SITUATION</div>
+      <div class="ws-text" id="wsText"></div>
+    </div>
+    <div class="question-text" id="wsQuestion"></div>
+    <div class="math-display" id="wsMath" style="display:none"></div>
+    <div class="input-group">
+      <input class="answer-input" id="wsInput" type="text" placeholder="Your answer..." onkeydown="if(event.key==='Enter')checkWS()">
+      <button class="submit-btn" onclick="checkWS()">SUBMIT</button>
+    </div>
+    <div class="feedback-bar" id="wsFeedback"></div>
+  </div>
+  <button class="next-btn" id="wsNextBtn" onclick="nextWS()">⚾ NEXT WORLD SERIES PROBLEM →</button>
+</div>
+
+<!-- ================================================
+     TAB 6: SCOREBOARD
+     ================================================ -->
+<div id="panel-scoreboard" class="panel">
+  <div class="board-section">
+    <div class="board-title">📊 YOUR STATS</div>
+    <div class="modal-stats" style="margin-bottom:0">
+      <div class="modal-stat"><div class="modal-stat-val" id="sbRuns">0</div><div class="modal-stat-lbl">Runs</div></div>
+      <div class="modal-stat"><div class="modal-stat-val" id="sbHits">0</div><div class="modal-stat-lbl">Total Hits</div></div>
+      <div class="modal-stat"><div class="modal-stat-val" id="sbAvg">--</div><div class="modal-stat-lbl">Avg</div></div>
+      <div class="modal-stat"><div class="modal-stat-val" id="sbCorrect">0</div><div class="modal-stat-lbl">Correct</div></div>
+      <div class="modal-stat"><div class="modal-stat-val" id="sbTotal">0</div><div class="modal-stat-lbl">Attempted</div></div>
+      <div class="modal-stat"><div class="modal-stat-val" id="sbStreak">0</div><div class="modal-stat-lbl">Best Streak</div></div>
+    </div>
+  </div>
+
+  <div class="board-section">
+    <div class="board-title">📈 TOPIC MASTERY</div>
+    <div id="topicProgress"></div>
+  </div>
+
+  <div class="board-section">
+    <div class="board-title">🏆 ACHIEVEMENTS</div>
+    <div id="achievementsList" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-weight:700;font-size:0.9rem;color:var(--navy)"></div>
+  </div>
+</div>
+
+</div><!-- /game-area -->
+
+<!-- INNING COMPLETE MODAL -->
+<div class="modal-overlay" id="inningModal">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle">INNING COMPLETE!</div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-stats" id="modalStats"></div>
+    <button class="modal-btn" onclick="closeModal()">PLAY BALL! ⚾</button>
+  </div>
+</div>
+
+<script>
+// ================================================
+// ALL QUESTIONS BANK
+// ================================================
+
+const TOPICS = {
+  addSub: "Add/Sub Equations",
+  multDiv: "Mult/Div Equations",
+  mixed: "Mixed Operations",
+  translating: "Translating Equations",
+  rational: "Rational Equations",
+  realWorld: "Real World",
+  inequalities: "Inequalities"
+};
+
+const questions = [
+  // ---- ONE-STEP: ADDITION & SUBTRACTION ----
+  { topic:'addSub', text:'Solve for x:', math:'x + 7 = 15', choices:['x = 8','x = 22','x = 7','x = 105'], correct:0,
+    explain:'Subtract 7 from both sides: x = 15 − 7 = 8' },
+  { topic:'addSub', text:'Solve for n:', math:'n − 4 = 11', choices:['n = 7','n = 44','n = 15','n = 3'], correct:2,
+    explain:'Add 4 to both sides: n = 11 + 4 = 15' },
+  { topic:'addSub', text:'Solve for y:', math:'y + 13 = 30', choices:['y = 17','y = 43','y = 3','y = 390'], correct:0,
+    explain:'Subtract 13 from both sides: y = 30 − 13 = 17' },
+  { topic:'addSub', text:'Solve for a:', math:'a − 9 = 0', choices:['a = 0','a = 9','a = −9','a = 1'], correct:1,
+    explain:'Add 9 to both sides: a = 0 + 9 = 9' },
+  { topic:'addSub', text:'Solve for k:', math:'k + 25 = 40', choices:['k = 65','k = 15','k = 25','k = 1000'], correct:1,
+    explain:'Subtract 25 from both sides: k = 40 − 25 = 15' },
+  { topic:'addSub', text:'Solve for m:', math:'18 + m = 31', choices:['m = 49','m = 13','m = 18','m = 3'], correct:1,
+    explain:'Subtract 18 from both sides: m = 31 − 18 = 13' },
+  { topic:'addSub', text:'Solve for p:', math:'p − 17 = 8', choices:['p = 9','p = 136','p = 25','p = 17'], correct:2,
+    explain:'Add 17 to both sides: p = 8 + 17 = 25' },
+  { topic:'addSub', text:'Solve for z:', math:'z + 6 = 6', choices:['z = 1','z = 12','z = 0','z = 36'], correct:2,
+    explain:'Subtract 6 from both sides: z = 6 − 6 = 0' },
+
+  // ---- ONE-STEP: MULTIPLICATION & DIVISION ----
+  { topic:'multDiv', text:'Solve for x:', math:'3x = 18', choices:['x = 6','x = 54','x = 3','x = 15'], correct:0,
+    explain:'Divide both sides by 3: x = 18 ÷ 3 = 6' },
+  { topic:'multDiv', text:'Solve for y:', math:'y ÷ 5 = 9', choices:['y = 14','y = 4','y = 45','y = 95'], correct:2,
+    explain:'Multiply both sides by 5: y = 9 × 5 = 45' },
+  { topic:'multDiv', text:'Solve for n:', math:'4n = 36', choices:['n = 32','n = 9','n = 144','n = 40'], correct:1,
+    explain:'Divide both sides by 4: n = 36 ÷ 4 = 9' },
+  { topic:'multDiv', text:'Solve for a:', math:'a ÷ 8 = 7', choices:['a = 1','a = 15','a = 56','a = 8'], correct:2,
+    explain:'Multiply both sides by 8: a = 7 × 8 = 56' },
+  { topic:'multDiv', text:'Solve for t:', math:'7t = 63', choices:['t = 9','t = 56','t = 70','t = 441'], correct:0,
+    explain:'Divide both sides by 7: t = 63 ÷ 7 = 9' },
+  { topic:'multDiv', text:'Solve for w:', math:'w ÷ 12 = 4', choices:['w = 3','w = 16','w = 48','w = 8'], correct:2,
+    explain:'Multiply both sides by 12: w = 4 × 12 = 48' },
+  { topic:'multDiv', text:'Solve for c:', math:'6c = 54', choices:['c = 48','c = 60','c = 9','c = 324'], correct:2,
+    explain:'Divide both sides by 6: c = 54 ÷ 6 = 9' },
+  { topic:'multDiv', text:'Solve for b:', math:'b ÷ 3 = 15', choices:['b = 5','b = 45','b = 18','b = 12'], correct:1,
+    explain:'Multiply both sides by 3: b = 15 × 3 = 45' },
+
+  // ---- MIXED OPERATIONS ----
+  { topic:'mixed', text:'Which operation do you use to solve this?', math:'x + 9 = 22', choices:['Add 9','Subtract 9','Multiply by 9','Divide by 9'], correct:1,
+    explain:'The opposite (inverse) of addition is subtraction. Subtract 9 from both sides.' },
+  { topic:'mixed', text:'Which operation undoes multiplication?', math:'5n = 40', choices:['Add 5','Subtract 5','Multiply by 5','Divide by 5'], correct:3,
+    explain:'The inverse of multiplication is division. Divide both sides by 5.' },
+  { topic:'mixed', text:'Solve for x:', math:'x − 8 = 12', choices:['x = 4','x = 96','x = 20','x = 8'], correct:2,
+    explain:'Add 8 to both sides: x = 12 + 8 = 20' },
+  { topic:'mixed', text:'Solve for y:', math:'2y = 14', choices:['y = 12','y = 7','y = 28','y = 16'], correct:1,
+    explain:'Divide both sides by 2: y = 14 ÷ 2 = 7' },
+  { topic:'mixed', text:'Which is a solution to 3x = 21?', math:'Is x = 7 a solution?', choices:['Yes — 3(7)=21 ✓','No — 3+7=10','No — 3(7)=24','Yes — 7÷3=21'], correct:0,
+    explain:'Check: 3(7) = 21 ✓  The solution x = 7 works!' },
+  { topic:'mixed', text:'Solve for n:', math:'n ÷ 6 = 8', choices:['n = 2','n = 14','n = 48','n = 6'], correct:2,
+    explain:'Multiply both sides by 6: n = 8 × 6 = 48' },
+  { topic:'mixed', text:'What is the inverse operation of division?', math:'', choices:['Addition','Subtraction','Multiplication','Division'], correct:2,
+    explain:'Division and multiplication are inverse operations — they undo each other.' },
+  { topic:'mixed', text:'Solve for m:', math:'m + 16 = 16', choices:['m = 32','m = 1','m = 0','m = 256'], correct:2,
+    explain:'Subtract 16 from both sides: m = 16 − 16 = 0' },
+
+  // ---- TRANSLATING ONE-STEP EQUATIONS ----
+  { topic:'translating', text:'A number n increased by 5 equals 20. Write and solve the equation:', math:'', choices:['n + 5 = 20; n = 15','n − 5 = 20; n = 25','5n = 20; n = 4','n ÷ 5 = 20; n = 100'], correct:0,
+    explain:'"Increased by" means addition: n + 5 = 20. Subtract 5: n = 15.' },
+  { topic:'translating', text:'Three times a number equals 24. Which equation represents this?', math:'', choices:['n + 3 = 24','n − 3 = 24','3n = 24','n ÷ 3 = 24'], correct:2,
+    explain:'"Three times a number" = 3n. So 3n = 24.' },
+  { topic:'translating', text:'A number decreased by 8 is 10. What is the number?', math:'n − 8 = 10', choices:['n = 2','n = 80','n = 18','n = 8'], correct:2,
+    explain:'"Decreased by" means subtraction. n − 8 = 10. Add 8: n = 18.' },
+  { topic:'translating', text:'Half of a number is 9. Write the equation:', math:'', choices:['n − 2 = 9','2n = 9','n ÷ 2 = 9','n + 9 = 2'], correct:2,
+    explain:'"Half of" means divide by 2: n ÷ 2 = 9. Multiply both sides by 2: n = 18.' },
+  { topic:'translating', text:'The sum of a number and 7 is 15. Find the number:', math:'', choices:['n = 8','n = 22','n = 105','n = 7'], correct:0,
+    explain:'"Sum" means addition: n + 7 = 15. Subtract 7: n = 8.' },
+  { topic:'translating', text:'A number divided by 4 equals 6. What is the number?', math:'n ÷ 4 = 6', choices:['n = 2','n = 24','n = 10','n = 1.5'], correct:1,
+    explain:'Multiply both sides by 4: n = 6 × 4 = 24.' },
+  { topic:'translating', text:'The product of 5 and a number is 35. Which equation?', math:'', choices:['5 + n = 35','5 − n = 35','5n = 35','n ÷ 5 = 35'], correct:2,
+    explain:'"Product" means multiplication: 5n = 35.' },
+  { topic:'translating', text:'Write an equation: 12 less than a number n is 4.', math:'', choices:['12 − n = 4','n − 12 = 4','n + 12 = 4','n × 12 = 4'], correct:1,
+    explain:'"12 less than n" = n − 12. So n − 12 = 4.' },
+
+  // ---- RATIONAL EQUATIONS ----
+  { topic:'rational', text:'Solve for x:', math:'x + 1/2 = 3/2', choices:['x = 1','x = 2','x = 1/2','x = 4'], correct:0,
+    explain:'Subtract 1/2 from both sides: x = 3/2 − 1/2 = 2/2 = 1' },
+  { topic:'rational', text:'Solve for n:', math:'n − 2/3 = 1/3', choices:['n = 1','n = 3','n = 1/3','n = 2/3'], correct:0,
+    explain:'Add 2/3 to both sides: n = 1/3 + 2/3 = 3/3 = 1' },
+  { topic:'rational', text:'Solve for y:', math:'(1/4)y = 3', choices:['y = 3/4','y = 4','y = 12','y = 3'], correct:2,
+    explain:'Multiply both sides by 4: y = 3 × 4 = 12' },
+  { topic:'rational', text:'Solve for a:', math:'a ÷ (1/2) = 8', choices:['a = 4','a = 16','a = 8','a = 1/4'], correct:1,
+    explain:'Dividing by 1/2 is the same as multiplying by 2: a = 8 × 2 = 16 (but here a ÷ (1/2) = a × 2 = 8 → a = 4). Wait: a × 2 = 8, so a = 4.',
+    correctOverride: 0 },
+  { topic:'rational', text:'Which fraction makes this equation true?', math:'x + 1/4 = 3/4', choices:['x = 1/4','x = 1/2','x = 4/4','x = 3/16'], correct:1,
+    explain:'3/4 − 1/4 = 2/4 = 1/2. So x = 1/2.' },
+  { topic:'rational', text:'Solve for m:', math:'3/5 × m = 6', choices:['m = 10','m = 18/5','m = 2','m = 5'], correct:0,
+    explain:'Divide both sides by 3/5 (multiply by 5/3): m = 6 × (5/3) = 30/3 = 10' },
+  { topic:'rational', text:'Solve for b:', math:'b + 0.5 = 2.5', choices:['b = 3','b = 1.25','b = 2','b = 1.5'], correct:2,
+    explain:'Subtract 0.5 from both sides: b = 2.5 − 0.5 = 2' },
+  { topic:'rational', text:'Which value solves this equation?', math:'n − 0.25 = 1.75', choices:['n = 1.5','n = 2','n = 0.25','n = 7'], correct:1,
+    explain:'Add 0.25 to both sides: n = 1.75 + 0.25 = 2' },
+
+  // ---- REAL WORLD ----
+  { topic:'realWorld', text:'Marcus earns $8 per hour. He earned $48 this week. How many hours did he work?', math:'8h = 48', choices:['h = 6','h = 56','h = 40','h = 384'], correct:0,
+    explain:'Divide both sides by 8: h = 48 ÷ 8 = 6 hours.' },
+  { topic:'realWorld', text:'Jaylen had some stickers. He gave away 15 and had 27 left. How many did he start with?', math:'s − 15 = 27', choices:['s = 12','s = 405','s = 42','s = 27'], correct:2,
+    explain:'Add 15 to both sides: s = 27 + 15 = 42 stickers.' },
+  { topic:'realWorld', text:'A pizza is cut into equal slices. If 4 people each get 3 slices, how many total slices?', math:'s ÷ 4 = 3', choices:['s = 7','s = 12','s = 1','s = 43'], correct:1,
+    explain:'Multiply both sides by 4: s = 3 × 4 = 12 slices.' },
+  { topic:'realWorld', text:'The temperature rose 9 degrees to reach 72°F. What was the starting temp?', math:'t + 9 = 72', choices:['t = 81','t = 648','t = 63','t = 9'], correct:2,
+    explain:'Subtract 9 from both sides: t = 72 − 9 = 63°F.' },
+  { topic:'realWorld', text:'A school bus has some seats. With 6 seats per row and 35 rows... if 6 × r = 210, how many rows?', math:'6r = 210', choices:['r = 35','r = 216','r = 204','r = 1260'], correct:0,
+    explain:'Divide both sides by 6: r = 210 ÷ 6 = 35 rows.' },
+  { topic:'realWorld', text:'Mia saved the same amount each month. After 4 months she saved $60. Monthly savings?', math:'4m = 60', choices:['m = 240','m = 56','m = 15','m = 64'], correct:2,
+    explain:'Divide both sides by 4: m = 60 ÷ 4 = $15 per month.' },
+
+  // ---- INEQUALITIES ----
+  { topic:'inequalities', text:'Which inequality means "a number is greater than 5"?', math:'', choices:['n < 5','n > 5','n = 5','n ≥ 5'], correct:1,
+    explain:'"Greater than" uses the > symbol. So n > 5.' },
+  { topic:'inequalities', text:'Which value is a solution to x > 8?', math:'', choices:['x = 5','x = 8','x = 11','x = 3'], correct:2,
+    explain:'x must be strictly greater than 8. x = 11 is the only value larger than 8.' },
+  { topic:'inequalities', text:'What does ≤ mean?', math:'', choices:['Greater than','Less than','Less than OR equal to','Greater than OR equal to'], correct:2,
+    explain:'≤ means "less than or equal to." The line below the inequality sign means "equal to" is included.' },
+  { topic:'inequalities', text:'Which inequality shows "at least 12"?', math:'', choices:['n < 12','n > 12','n ≤ 12','n ≥ 12'], correct:3,
+    explain:'"At least" means 12 or more, so n ≥ 12.' },
+  { topic:'inequalities', text:'Solve the inequality:', math:'n + 3 < 10', choices:['n < 7','n < 13','n > 7','n = 7'], correct:0,
+    explain:'Subtract 3 from both sides: n < 10 − 3 = 7. So n < 7.' },
+  { topic:'inequalities', text:'Which graph shows x ≥ 4?', math:'', choices:['Open circle at 4, arrow left','Open circle at 4, arrow right','Closed circle at 4, arrow right','Closed circle at 4, arrow left'], correct:2,
+    explain:'"≥" includes 4, so use a CLOSED circle. "Greater than" means arrow points right.' },
+  { topic:'inequalities', text:'Solve:', math:'2n ≤ 16', choices:['n ≤ 8','n ≤ 32','n ≥ 8','n = 8'], correct:0,
+    explain:'Divide both sides by 2: n ≤ 16 ÷ 2 = 8. So n ≤ 8.' },
+  { topic:'inequalities', text:'Which word phrase matches n < 6?', math:'', choices:['n is at most 6','n is at least 6','n is less than 6','n is 6'], correct:2,
+    explain:'"Less than 6" = n < 6. "At most 6" would be n ≤ 6.' },
+];
+
+// ================================================
+// SORTING ACTIVITY DATA
+// ================================================
+const sortActivities = [
+  {
+    question: "Sort each equation — is it solved using ADDITION or SUBTRACTION?",
+    zoneLabels: ["➕ Use ADDITION (add to solve)", "➖ Use SUBTRACTION (subtract to solve)"],
+    cards: [
+      { text: "x − 5 = 10", zone: 0 },
+      { text: "n + 7 = 15", zone: 1 },
+      { text: "y − 3 = 8", zone: 0 },
+      { text: "a + 12 = 20", zone: 1 },
+      { text: "m − 9 = 4", zone: 0 },
+      { text: "b + 6 = 18", zone: 1 },
+    ]
+  },
+  {
+    question: "Sort each equation — is it solved using MULTIPLICATION or DIVISION?",
+    zoneLabels: ["✖️ Use MULTIPLICATION", "➗ Use DIVISION"],
+    cards: [
+      { text: "x ÷ 3 = 7", zone: 0 },
+      { text: "4n = 28", zone: 1 },
+      { text: "y ÷ 6 = 5", zone: 0 },
+      { text: "9m = 45", zone: 1 },
+      { text: "a ÷ 2 = 12", zone: 0 },
+      { text: "5b = 40", zone: 1 },
+    ]
+  },
+  {
+    question: "Sort each phrase — does it translate to addition (+) or multiplication (×)?",
+    zoneLabels: ["➕ Addition Operation", "✖️ Multiplication Operation"],
+    cards: [
+      { text: "increased by 5", zone: 0 },
+      { text: "triple a number", zone: 1 },
+      { text: "sum of n and 8", zone: 0 },
+      { text: "twice as many", zone: 1 },
+      { text: "7 more than x", zone: 0 },
+      { text: "the product of 4 and n", zone: 1 },
+    ]
+  },
+  {
+    question: "Sort these symbols — are they EQUATIONS or INEQUALITIES?",
+    zoneLabels: ["⚖️ Equation (exact value)", "📊 Inequality (range of values)"],
+    cards: [
+      { text: "x + 3 = 10", zone: 0 },
+      { text: "n − 5 > 8", zone: 1 },
+      { text: "4y = 20", zone: 0 },
+      { text: "2m ≤ 12", zone: 1 },
+      { text: "b ÷ 2 = 6", zone: 0 },
+      { text: "p + 1 ≥ 9", zone: 1 },
+    ]
+  }
+];
+
+// ================================================
+// ERROR HUNT DATA
+// ================================================
+const errorHunts = [
+  {
+    problem: "Solve: x + 8 = 20",
+    steps: [
+      { text: "x + 8 = 20", correct: true },
+      { text: "Subtract 8 from the right side only: x = 20 − 8 = 12 → Wait, that's right! But let's say the student wrote: x + 8 − 8 = 20 (forgot to subtract from left)", correct: true },
+      { text: "x + 8 = 20  →  x = 20 + 8 = 28  ❌ (Added instead of subtracting)", correct: false, isError: true },
+    ],
+    errorStep: 2,
+    explain: "Step 3 is wrong! To get x alone, you subtract 8 from BOTH sides. The student added 8 instead of subtracting."
+  },
+  {
+    problem: "Solve: 5n = 35",
+    steps: [
+      { text: "5n = 35  ← Original equation", correct: true },
+      { text: "To undo multiplication, use division ÷5 on both sides", correct: true },
+      { text: "5n ÷ 5 = 35 ÷ 5  →  n = 5  ❌ (Divided 35 by 7 instead of 5)", correct: false, isError: true },
+    ],
+    errorStep: 2,
+    explain: "Step 3 has the error! 35 ÷ 5 = 7, NOT 5. The correct answer is n = 7."
+  },
+  {
+    problem: "Solve: y − 6 = 14",
+    steps: [
+      { text: "y − 6 = 14", correct: true },
+      { text: "Inverse of subtraction is subtraction — subtract 6 from both sides  ❌", correct: false, isError: true },
+      { text: "y − 6 − 6 = 14 − 6  →  y − 12 = 8  →  y = 20  ❌ (wrong method)", correct: false },
+    ],
+    errorStep: 1,
+    explain: "Step 2 is wrong! The inverse of subtraction is ADDITION. You should ADD 6 to both sides: y = 14 + 6 = 20."
+  },
+  {
+    problem: "Translate & Solve: 'A number decreased by 4 equals 9.'",
+    steps: [
+      { text: "Let n = the unknown number", correct: true },
+      { text: "Equation: n + 4 = 9  ❌ (wrong operation — 'decreased by' means subtract)", correct: false, isError: true },
+      { text: "n = 9 − 4 = 5  ❌ (gives right-looking answer but wrong equation)", correct: false },
+    ],
+    errorStep: 1,
+    explain: "Step 2 has the error! 'Decreased by 4' means MINUS 4. The correct equation is n − 4 = 9, then n = 9 + 4 = 13."
+  },
+  {
+    problem: "Solve the inequality: n + 5 > 12",
+    steps: [
+      { text: "n + 5 > 12  ← Original inequality", correct: true },
+      { text: "Subtract 5 from both sides", correct: true },
+      { text: "n + 5 − 5 > 12 + 5  →  n > 17  ❌ (subtracted from left, ADDED to right)", correct: false, isError: true },
+    ],
+    errorStep: 2,
+    explain: "Step 3 has the error! You must subtract 5 from BOTH sides: n > 12 − 5 = 7, so n > 7."
+  },
+];
+
+// ================================================
+// WORLD SERIES PROBLEMS
+// ================================================
+const wsProblems = [
+  {
+    scenario: "Coach Rivera orders jerseys for the team. Each jersey costs $12. The team spent exactly $96 on jerseys.",
+    question: "Write and solve an equation to find how many jerseys the team ordered.",
+    equation: "12j = 96",
+    answer: "8",
+    unit: "jerseys",
+    explain: "12j = 96. Divide both sides by 12: j = 96 ÷ 12 = 8 jerseys."
+  },
+  {
+    scenario: "Aaliyah is saving up for new cleats that cost $85. She already saved $47.",
+    question: "How much more money does Aaliyah need to save? Write and solve an equation.",
+    equation: "47 + m = 85",
+    answer: "38",
+    unit: "dollars",
+    explain: "47 + m = 85. Subtract 47 from both sides: m = 85 − 47 = $38."
+  },
+  {
+    scenario: "The baseball stadium has seats arranged in equal rows. There are 420 seats total and 35 seats per row.",
+    question: "Write and solve an equation to find the number of rows.",
+    equation: "35r = 420",
+    answer: "12",
+    unit: "rows",
+    explain: "35r = 420. Divide both sides by 35: r = 420 ÷ 35 = 12 rows."
+  },
+  {
+    scenario: "A pitcher's ERA (earned run average) dropped by 1.5 points to reach 3.0 this season.",
+    question: "What was the pitcher's ERA before the drop? Write and solve an equation.",
+    equation: "ERA − 1.5 = 3.0",
+    answer: "4.5",
+    unit: "",
+    explain: "ERA − 1.5 = 3.0. Add 1.5 to both sides: ERA = 3.0 + 1.5 = 4.5."
+  },
+  {
+    scenario: "The concession stand sold the same number of hot dogs each inning. After 6 innings, 54 hot dogs were sold.",
+    question: "How many hot dogs were sold each inning?",
+    equation: "6h = 54",
+    answer: "9",
+    unit: "per inning",
+    explain: "6h = 54. Divide both sides by 6: h = 54 ÷ 6 = 9 hot dogs per inning."
+  },
+  {
+    scenario: "A player needs at least 20 practice sessions to improve. He has completed 13 so far.",
+    question: "Write an inequality to show how many more sessions (s) he needs.",
+    equation: "s + 13 ≥ 20",
+    answer: "7",
+    unit: "or more sessions",
+    explain: "s + 13 ≥ 20. Subtract 13: s ≥ 7. He needs at least 7 more sessions."
+  },
+  {
+    scenario: "Tickets to the championship cost the same price each. Five friends paid a total of $37.50.",
+    question: "What did each ticket cost? (Hint: divide both sides)",
+    equation: "5t = 37.50",
+    answer: "7.50",
+    unit: "dollars",
+    explain: "5t = 37.50. Divide both sides by 5: t = $7.50 per ticket."
+  },
+];
+
+// ================================================
+// GAME STATE
+// ================================================
+const state = {
+  score: 0, hits: 0, outs: 0, runs: 0,
+  bases: [false, false, false, false],
+  currentQ: 0, answered: 0, correct: 0,
+  totalAttempted: 0, totalCorrect: 0,
+  bestStreak: 0, currentStreak: 0,
+  topicStats: {},
+  sortIdx: 0, errorIdx: 0, wsIdx: 0,
+  speedScore: 0, speedStreak: 0, speedTimer: null, speedActive: false,
+  achievements: []
+};
+
+// Shuffle questions
+let questionPool = [...questions].sort(() => Math.random() - 0.5);
+let qIndex = 0;
+
+// ================================================
+// UTILITY
+// ================================================
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function showPitchResult(text, type) {
+  const el = document.getElementById('pitchResult');
+  el.textContent = text;
+  el.className = 'pitch-result ' + type;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1200);
+}
+
+function launchBall() {
+  const el = document.getElementById('ballEmoji');
+  el.classList.remove('fly');
+  void el.offsetWidth;
+  el.classList.add('fly');
+}
+
+function showConfetti(count = 20) {
+  const container = document.getElementById('starsContainer');
+  const colors = ['#f5c518','#1fa6a2','#d42b2b','#27ae60','#ff6b35','#fff'];
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.top = '-20px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDelay = Math.random() * 0.5 + 's';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 2500);
+  }
+}
+
+function updateTopicStats(topic, correct) {
+  if (!state.topicStats[topic]) state.topicStats[topic] = { correct: 0, total: 0 };
+  state.topicStats[topic].total++;
+  if (correct) state.topicStats[topic].correct++;
+}
+
+// ================================================
+// BATTING PRACTICE (TAB 1)
+// ================================================
+function loadQuestion() {
+  if (qIndex >= questionPool.length) {
+    questionPool = shuffle([...questions]);
+    qIndex = 0;
+  }
+  const q = questionPool[qIndex];
+
+  document.getElementById('pitchLabel').textContent = `PITCH ${state.totalAttempted + 1}`;
+  document.getElementById('topicBadge').textContent = TOPICS[q.topic] || q.topic;
+  document.getElementById('questionText').textContent = q.text;
+
+  const mathEl = document.getElementById('mathDisplay');
+  if (q.math) {
+    mathEl.style.display = 'block';
+    mathEl.textContent = q.math;
+  } else {
+    mathEl.style.display = 'none';
+  }
+
+  const grid = document.getElementById('choicesGrid');
+  grid.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.choices.forEach((choice, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `<span class="choice-letter">${letters[i]}</span>${choice}`;
+    btn.onclick = () => answerQuestion(i, q, btn);
+    grid.appendChild(btn);
+  });
+
+  document.getElementById('feedbackBar').className = 'feedback-bar';
+  document.getElementById('nextBtn').className = 'next-btn';
+
+  const pct = Math.min((state.totalAttempted / 30) * 100, 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+
+  updateInningLabel();
+}
+
+function answerQuestion(selected, q, btn) {
+  const correctIdx = q.correctOverride !== undefined ? q.correctOverride : q.correct;
+  const btns = document.querySelectorAll('#choicesGrid .choice-btn');
+  btns.forEach(b => b.disabled = true);
+
+  state.totalAttempted++;
+  updateTopicStats(q.topic, selected === correctIdx);
+
+  const fb = document.getElementById('feedbackBar');
+
+  if (selected === correctIdx) {
+    btn.classList.add('correct');
+    btns[correctIdx].querySelector('.choice-letter').style.background = 'var(--correct)';
+    state.totalCorrect++;
+    state.hits++;
+    state.currentStreak++;
+    if (state.currentStreak > state.bestStreak) state.bestStreak = state.currentStreak;
+
+    // Advance runners / score
+    advanceRunners();
+    launchBall();
+
+    const hitType = state.currentStreak >= 5 ? 'HOME RUN! 🏠' : state.currentStreak >= 3 ? 'TRIPLE! 3️⃣' : 'HIT! ⚾';
+    showPitchResult(hitType, state.currentStreak >= 5 ? 'homer' : 'hit');
+    if (state.currentStreak >= 3) showConfetti(15);
+
+    fb.className = 'feedback-bar show correct-fb';
+    fb.innerHTML = `✅ <span><strong>Correct!</strong> ${q.explain}</span>`;
+    checkAchievements();
+  } else {
+    btn.classList.add('wrong');
+    btns[correctIdx].classList.add('correct');
+    state.currentStreak = 0;
+    state.outs++;
+    showPitchResult('OUT! ❌', 'out');
+    updateOuts();
+
+    fb.className = 'feedback-bar show wrong-fb';
+    fb.innerHTML = `❌ <span><strong>Not quite.</strong> ${q.explain}</span>`;
+  }
+
+  document.getElementById('nextBtn').className = 'next-btn show';
+  updateScoreboard();
+  qIndex++;
+}
+
+function advanceRunners() {
+  // Simple: runner on 1st → 2nd → 3rd → home (score)
+  if (state.bases[2]) { state.runs++; state.score++; state.bases[2] = false; }
+  if (state.bases[1]) { state.bases[2] = true; state.bases[1] = false; }
+  if (state.bases[0]) { state.bases[1] = true; state.bases[0] = false; }
+  state.bases[0] = true; // batter on first
+  updateBases();
+  updateScoreboard();
+}
+
+function updateBases() {
+  for (let i = 0; i < 4; i++) {
+    const el = document.getElementById('base' + i);
+    if (el) el.classList.toggle('active', state.bases[i]);
+  }
+}
+
+function updateOuts() {
+  for (let i = 0; i < 3; i++) {
+    const el = document.getElementById('out' + (i+1));
+    if (el) el.classList.toggle('filled', i < state.outs);
+  }
+  if (state.outs >= 3) {
+    state.outs = 0;
+    state.bases = [false,false,false,false];
+    updateBases();
+    updateOuts();
+  }
+}
+
+function updateInningLabel() {
+  const inning = Math.floor(state.totalAttempted / 6) + 1;
+  document.getElementById('inningLabel').textContent = `INNING ${inning} — AT BAT`;
+}
+
+function nextQuestion() {
+  loadQuestion();
+}
+
+function updateScoreboard() {
+  document.getElementById('scoreDisplay').textContent = state.score;
+  document.getElementById('hitsDisplay').textContent = state.hits;
+  document.getElementById('sbRuns').textContent = state.runs;
+  document.getElementById('sbHits').textContent = state.hits;
+  document.getElementById('sbCorrect').textContent = state.totalCorrect;
+  document.getElementById('sbTotal').textContent = state.totalAttempted;
+  const avg = state.totalAttempted ? Math.round((state.totalCorrect/state.totalAttempted)*1000)/1000 : '---';
+  document.getElementById('sbAvg').textContent = typeof avg === 'number' ? avg.toFixed(3).replace('0.','.' ) : avg;
+  document.getElementById('sbStreak').textContent = state.bestStreak;
+}
+
+// ================================================
+// SORTING (TAB 2)
+// ================================================
+let currentSort = null;
+let draggedCard = null;
+const zoneContents = {0: [], 1: []};
+
+function loadSort() {
+  currentSort = sortActivities[state.sortIdx % sortActivities.length];
+  document.getElementById('sortQuestion').textContent = currentSort.question;
+  document.getElementById('zoneLabel0').textContent = currentSort.zoneLabels[0];
+  document.getElementById('zoneLabel1').textContent = currentSort.zoneLabels[1];
+
+  zoneContents[0] = [];
+  zoneContents[1] = [];
+
+  const bank = document.getElementById('dragBank');
+  bank.innerHTML = '';
+
+  const zone0 = document.getElementById('zone0');
+  const zone1 = document.getElementById('zone1');
+  zone0.innerHTML = `<div class="sort-zone-label">${currentSort.zoneLabels[0]}</div>`;
+  zone1.innerHTML = `<div class="sort-zone-label">${currentSort.zoneLabels[1]}</div>`;
+  zone0.className = 'sort-zone';
+  zone1.className = 'sort-zone';
+
+  shuffle(currentSort.cards).forEach((card, i) => {
+    const el = document.createElement('div');
+    el.className = 'drag-card';
+    el.textContent = card.text;
+    el.draggable = true;
+    el.dataset.idx = currentSort.cards.indexOf(card);
+    el.addEventListener('dragstart', e => { draggedCard = el; el.classList.add('dragging'); e.dataTransfer.effectAllowed = 'move'; });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+    // Touch support
+    el.addEventListener('touchstart', touchStart, {passive:true});
+    el.addEventListener('touchmove', touchMove, {passive:false});
+    el.addEventListener('touchend', touchEnd);
+    bank.appendChild(el);
+  });
+
+  document.getElementById('sortFeedback').className = 'feedback-bar';
+  document.getElementById('sortNextBtn').className = 'next-btn';
+}
+
+function dragOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+
+function dropCard(e, zoneIdx) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!draggedCard) return;
+  const cardDataIdx = parseInt(draggedCard.dataset.idx);
+  zoneContents[zoneIdx].push(cardDataIdx);
+  const clone = draggedCard.cloneNode(true);
+  clone.draggable = false;
+  e.currentTarget.appendChild(clone);
+  draggedCard.remove();
+  draggedCard = null;
+}
+
+// Touch drag
+let touchEl = null, touchClone = null;
+function touchStart(e) {
+  touchEl = e.currentTarget;
+  touchClone = touchEl.cloneNode(true);
+  touchClone.style.position = 'fixed';
+  touchClone.style.opacity = '0.8';
+  touchClone.style.pointerEvents = 'none';
+  touchClone.style.zIndex = '9999';
+  touchClone.style.width = touchEl.offsetWidth + 'px';
+  document.body.appendChild(touchClone);
+}
+function touchMove(e) {
+  e.preventDefault();
+  const t = e.touches[0];
+  touchClone.style.left = t.clientX - touchEl.offsetWidth/2 + 'px';
+  touchClone.style.top = t.clientY - touchEl.offsetHeight/2 + 'px';
+}
+function touchEnd(e) {
+  if (!touchClone) return;
+  const t = e.changedTouches[0];
+  touchClone.remove();
+  touchClone = null;
+  const target = document.elementFromPoint(t.clientX, t.clientY);
+  const zone = target?.closest('.sort-zone');
+  if (zone) {
+    const zoneIdx = zone.id === 'zone0' ? 0 : 1;
+    const cardDataIdx = parseInt(touchEl.dataset.idx);
+    zoneContents[zoneIdx].push(cardDataIdx);
+    const clone = touchEl.cloneNode(true);
+    clone.draggable = false;
+    zone.appendChild(clone);
+    touchEl.remove();
+  }
+  touchEl = null;
+}
+
+function checkSort() {
+  let allCorrect = true;
+  const allPlaced = (zoneContents[0].length + zoneContents[1].length) === currentSort.cards.length;
+
+  if (!allPlaced) {
+    const fb = document.getElementById('sortFeedback');
+    fb.className = 'feedback-bar show wrong-fb';
+    fb.innerHTML = '⚠️ Place ALL cards into a zone before checking!';
+    return;
+  }
+
+  // Check each zone
+  for (let z = 0; z < 2; z++) {
+    zoneContents[z].forEach(cardIdx => {
+      if (currentSort.cards[cardIdx].zone !== z) allCorrect = false;
+    });
+  }
+
+  // Visual feedback on cards
+  [0,1].forEach(z => {
+    const zone = document.getElementById('zone' + z);
+    zone.querySelectorAll('.drag-card').forEach(card => {
+      const cardIdx = [...currentSort.cards].findIndex(c => c.text === card.textContent);
+      if (cardIdx >= 0) {
+        card.classList.add(currentSort.cards[cardIdx].zone === z ? 'correct-card' : 'wrong-card');
+      }
+    });
+    zone.className = 'sort-zone ' + (allCorrect ? 'correct-zone' : 'wrong-zone');
+  });
+
+  const fb = document.getElementById('sortFeedback');
+  if (allCorrect) {
+    fb.className = 'feedback-bar show correct-fb';
+    fb.innerHTML = '⚾ PERFECT SORT! All cards placed correctly!';
+    state.totalCorrect++; state.hits++;
+    showPitchResult('PERFECT SORT! ⭐', 'hit');
+    showConfetti(20);
+  } else {
+    fb.className = 'feedback-bar show wrong-fb';
+    fb.innerHTML = '❌ Some cards are in the wrong zone. Check the highlighted ones!';
+  }
+  state.totalAttempted++;
+  updateScoreboard();
+  document.getElementById('sortNextBtn').className = 'next-btn show';
+}
+
+function nextSort() {
+  state.sortIdx++;
+  zoneContents[0] = [];
+  zoneContents[1] = [];
+  loadSort();
+}
+
+// ================================================
+// ERROR HUNT (TAB 3)
+// ================================================
+function loadError() {
+  const hunt = errorHunts[state.errorIdx % errorHunts.length];
+  document.getElementById('errorProblem').textContent = hunt.problem;
+  const stepsEl = document.getElementById('workSteps');
+  stepsEl.innerHTML = '';
+  hunt.steps.forEach((step, i) => {
+    const el = document.createElement('div');
+    el.className = 'work-step';
+    el.innerHTML = `<div class="step-num">${i+1}</div><div>${step.text}</div>`;
+    el.onclick = () => selectStep(i, hunt, el);
+    stepsEl.appendChild(el);
+  });
+  document.getElementById('errorFeedback').className = 'feedback-bar';
+  document.getElementById('errorNextBtn').className = 'next-btn';
+}
+
+function selectStep(i, hunt, el) {
+  document.querySelectorAll('.work-step').forEach(s => s.className = 'work-step');
+  el.classList.add('selected-error');
+
+  const fb = document.getElementById('errorFeedback');
+  state.totalAttempted++;
+
+  if (i === hunt.errorStep) {
+    el.classList.remove('selected-error');
+    el.classList.add('correct-error');
+    fb.className = 'feedback-bar show correct-fb';
+    fb.innerHTML = `⚾ FOUND IT! ${hunt.explain}`;
+    state.totalCorrect++; state.hits++;
+    showPitchResult('ERROR FOUND! 🔍', 'hit');
+    showConfetti(12);
+  } else {
+    fb.className = 'feedback-bar show wrong-fb';
+    fb.innerHTML = `❌ Not that step. Keep looking! Tip: Check each line carefully.`;
+  }
+  updateScoreboard();
+  document.getElementById('errorNextBtn').className = 'next-btn show';
+  document.querySelectorAll('.work-step').forEach(s => s.onclick = null);
+}
+
+function nextError() {
+  state.errorIdx++;
+  loadError();
+}
+
+// ================================================
+// SPEED ROUND (TAB 4)
+// ================================================
+const speedQuestions = [
+  { eq:'x + 4 = 9', answer:'5', choices:['5','13','4','45'] },
+  { eq:'n − 3 = 7', answer:'10', choices:['4','21','10','7'] },
+  { eq:'2y = 14', answer:'7', choices:['12','7','28','16'] },
+  { eq:'a ÷ 5 = 4', answer:'20', choices:['9','1','20','45'] },
+  { eq:'m + 8 = 20', answer:'12', choices:['160','28','12','8'] },
+  { eq:'6b = 42', answer:'7', choices:['7','48','36','252'] },
+  { eq:'p − 11 = 4', answer:'15', choices:['7','44','15','11'] },
+  { eq:'t ÷ 3 = 9', answer:'27', choices:['3','6','27','12'] },
+  { eq:'k + 15 = 30', answer:'15', choices:['45','15','450','2'] },
+  { eq:'4w = 32', answer:'8', choices:['28','36','8','128'] },
+  { eq:'z − 7 = 0', answer:'7', choices:['0','7','−7','1'] },
+  { eq:'c ÷ 8 = 6', answer:'48', choices:['2','14','48','56'] },
+];
+
+let speedPool = [];
+let speedQIdx = 0;
+
+function startSpeedRound() {
+  state.speedScore = 0;
+  state.speedStreak = 0;
+  speedPool = shuffle([...speedQuestions]);
+  speedQIdx = 0;
+  document.getElementById('speedScore').textContent = 0;
+  document.getElementById('speedStreak').textContent = 0;
+  document.getElementById('speedStartBtn').style.display = 'none';
+
+  let timeLeft = 60;
+  document.getElementById('speedTimer').textContent = timeLeft;
+  state.speedActive = true;
+
+  state.speedTimer = setInterval(() => {
+    timeLeft--;
+    document.getElementById('speedTimer').textContent = timeLeft;
+    if (timeLeft <= 10) document.getElementById('speedTimer').style.color = 'var(--red)';
+    if (timeLeft <= 0) {
+      clearInterval(state.speedTimer);
+      state.speedActive = false;
+      endSpeedRound();
+    }
+  }, 1000);
+
+  loadSpeedGrid();
+}
+
+function loadSpeedGrid() {
+  const grid = document.getElementById('speedGrid');
+  grid.innerHTML = '';
+  for (let i = 0; i < 6; i++) {
+    const q = speedPool[(speedQIdx + i) % speedPool.length];
+    const card = document.createElement('div');
+    card.className = 'speed-card';
+    card.dataset.answer = q.answer;
+    card.dataset.qidx = (speedQIdx + i) % speedPool.length;
+    card.innerHTML = `<div class="speed-equation">${q.eq}</div>
+      <div class="speed-choices">
+        ${shuffle(q.choices).map(c => `<div class="speed-choice" onclick="speedAnswer(this,'${c}','${q.answer}',this.closest('.speed-card'))">${c}</div>`).join('')}
+      </div>`;
+    grid.appendChild(card);
+  }
+}
+
+function speedAnswer(choiceEl, selected, answer, card) {
+  if (!state.speedActive) return;
+  if (selected === answer) {
+    card.classList.add('correct');
+    state.speedScore++;
+    state.speedStreak++;
+    state.hits++;
+    state.totalCorrect++;
+    showPitchResult('⚡', 'hit');
+  } else {
+    card.classList.add('wrong');
+    state.speedStreak = 0;
+    state.outs++;
+    updateOuts();
+  }
+  state.totalAttempted++;
+  document.getElementById('speedScore').textContent = state.speedScore;
+  document.getElementById('speedStreak').textContent = state.speedStreak + (state.speedStreak >= 3 ? '🔥' : '');
+  updateScoreboard();
+
+  setTimeout(() => {
+    card.remove();
+    speedQIdx++;
+    if (state.speedActive) {
+      const q = speedPool[speedQIdx % speedPool.length];
+      const newCard = document.createElement('div');
+      newCard.className = 'speed-card';
+      newCard.dataset.answer = q.answer;
+      newCard.innerHTML = `<div class="speed-equation">${q.eq}</div>
+        <div class="speed-choices">
+          ${shuffle(q.choices).map(c => `<div class="speed-choice" onclick="speedAnswer(this,'${c}','${q.answer}',this.closest('.speed-card'))">${c}</div>`).join('')}
+        </div>`;
+      document.getElementById('speedGrid').appendChild(newCard);
+    }
+  }, 400);
+}
+
+function endSpeedRound() {
+  document.getElementById('speedGrid').innerHTML = `
+    <div style="grid-column:1/-1;text-align:center;background:white;border-radius:16px;padding:28px;color:var(--navy)">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--navy)">TIME'S UP! ⚾</div>
+      <div style="font-size:1.2rem;font-weight:800;margin:12px 0">You scored <span style="color:var(--teal);font-size:1.8rem">${state.speedScore}</span> in 60 seconds!</div>
+      <button class="submit-btn" onclick="startSpeedRound()" style="font-size:1rem;margin-top:12px">⚡ PLAY AGAIN</button>
+    </div>
+  `;
+  document.getElementById('speedStartBtn').style.display = 'none';
+  if (state.speedScore >= 10) showConfetti(30);
+  checkAchievements();
+}
+
+// ================================================
+// WORLD SERIES (TAB 5)
+// ================================================
+function loadWS() {
+  const prob = wsProblems[state.wsIdx % wsProblems.length];
+  document.getElementById('wsText').textContent = prob.scenario;
+  document.getElementById('wsQuestion').textContent = prob.question;
+
+  const mathEl = document.getElementById('wsMath');
+  if (prob.equation) {
+    mathEl.style.display = 'block';
+    mathEl.textContent = 'Equation: ' + prob.equation;
+  } else {
+    mathEl.style.display = 'none';
+  }
+
+  document.getElementById('wsInput').value = '';
+  document.getElementById('wsFeedback').className = 'feedback-bar';
+  document.getElementById('wsNextBtn').className = 'next-btn';
+}
+
+function checkWS() {
+  const prob = wsProblems[state.wsIdx % wsProblems.length];
+  const input = document.getElementById('wsInput').value.trim();
+  const fb = document.getElementById('wsFeedback');
+  state.totalAttempted++;
+
+  const userAns = parseFloat(input.replace('$','').replace(',',''));
+  const correct = parseFloat(prob.answer);
+
+  if (Math.abs(userAns - correct) < 0.01) {
+    fb.className = 'feedback-bar show correct-fb';
+    fb.innerHTML = `⚾ HOME RUN! ${prob.explain}`;
+    state.totalCorrect++; state.hits++; state.runs++;
+    showPitchResult('HOME RUN! 🏠', 'homer');
+    showConfetti(25);
+    launchBall();
+  } else {
+    fb.className = 'feedback-bar show wrong-fb';
+    fb.innerHTML = `❌ Keep trying! Hint: ${prob.explain}`;
+    state.outs++;
+    updateOuts();
+    showPitchResult('OUT! ❌', 'out');
+  }
+  updateScoreboard();
+  document.getElementById('wsNextBtn').className = 'next-btn show';
+}
+
+function nextWS() {
+  state.wsIdx++;
+  loadWS();
+}
+
+// ================================================
+// SCOREBOARD TAB
+// ================================================
+function renderScoreboard() {
+  const prog = document.getElementById('topicProgress');
+  prog.innerHTML = '';
+  Object.entries(TOPICS).forEach(([key, name]) => {
+    const s = state.topicStats[key] || {correct:0, total:0};
+    const pct = s.total ? Math.round((s.correct/s.total)*100) : 0;
+    prog.innerHTML += `
+      <div class="topic-progress-row">
+        <div class="topic-name">${name}</div>
+        <div class="topic-bar-wrap"><div class="topic-bar" style="width:${pct}%"></div></div>
+        <div class="topic-pct">${s.total ? pct + '%' : '--'}</div>
+      </div>`;
+  });
+
+  const ach = document.getElementById('achievementsList');
+  ach.innerHTML = state.achievements.length ? state.achievements.map(a => `
+    <div style="background:#e8f7f7;border:2px solid var(--teal);border-radius:8px;padding:10px;display:flex;align-items:center;gap:8px">
+      <span style="font-size:1.4rem">${a.icon}</span>
+      <span>${a.name}</span>
+    </div>`).join('') :
+    '<div style="color:#888;font-style:italic;grid-column:1/-1">Keep playing to earn achievements!</div>';
+}
+
+function checkAchievements() {
+  const checks = [
+    { id:'first_hit', icon:'⚾', name:'First Hit!', cond: () => state.hits >= 1 },
+    { id:'streak3', icon:'🔥', name:'3-Hit Streak!', cond: () => state.bestStreak >= 3 },
+    { id:'streak5', icon:'💥', name:'5-Hit Streak!', cond: () => state.bestStreak >= 5 },
+    { id:'runs5', icon:'🏃', name:'5 Runs Scored!', cond: () => state.runs >= 5 },
+    { id:'speed10', icon:'⚡', name:'Speed Demon (10 in 60s)!', cond: () => state.speedScore >= 10 },
+    { id:'correct20', icon:'🌟', name:'20 Correct Answers!', cond: () => state.totalCorrect >= 20 },
+    { id:'allTopics', icon:'🏆', name:'All Topics Attempted!', cond: () => Object.keys(state.topicStats).length >= 5 },
+  ];
+  checks.forEach(ch => {
+    if (ch.cond() && !state.achievements.find(a => a.id === ch.id)) {
+      state.achievements.push(ch);
+    }
+  });
+}
+
+// ================================================
+// TAB SWITCHING
+// ================================================
+function switchTab(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+  if (name === 'scoreboard') renderScoreboard();
+}
+
+// ================================================
+// MODAL
+// ================================================
+function closeModal() {
+  document.getElementById('inningModal').classList.remove('show');
+}
+
+// ================================================
+// INIT
+// ================================================
+window.addEventListener('load', () => {
+  loadQuestion();
+  loadSort();
+  loadError();
+  loadWS();
+});
+</script>
+</body>
+</html>
